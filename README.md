@@ -81,25 +81,6 @@ function MyEditor() {
 | `setClear`      | `void`      | Clears the editor content                |
 | `insertContent` | `void`      | Insert content into the editor           |
 
-## Tooltip & Bubble Menu
-
-### Tooltip
-
-Tooltips provide contextual information about each toolbar button when users hover over them. This feature helps improve usability by explaining button functions.
-
--   Tooltips are enabled by default
--   You can disable tooltips by setting `tooltip={false}`
--   Tooltips use Ant Design's Tooltip component for consistent styling
-
-### Bubble Menu
-
-The bubble menu is a floating formatting menu that appears when text is selected. It provides quick access to common formatting options right where you need them.
-
--   The bubble menu is disabled by default
--   Enable it by setting `bubble={true}`
--   The menu appears only on text selection and not on special elements like images, code blocks, and YouTube embeds
--   Provides quick access to common text formatting options without moving to the toolbar
-
 ## License
 
 MIT
