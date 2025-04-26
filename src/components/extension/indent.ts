@@ -1,5 +1,6 @@
 import { Extension } from '@tiptap/core';
 import { TextSelection } from '@tiptap/pm/state';
+import { Editor } from '@tiptap/core';
 
 export const Indent = Extension.create({
     name: 'tabIndent',
@@ -7,6 +8,10 @@ export const Indent = Extension.create({
     addKeyboardShortcuts() {
         return {
             Tab: ({ editor }) => {
+                if (isSpecialNode(editor)) {
+                    return false;
+                }
+
                 const { state, dispatch } = editor.view;
                 const { from, to } = state.selection;
 
@@ -23,6 +28,10 @@ export const Indent = Extension.create({
             },
 
             'Shift-Tab': ({ editor }) => {
+                if (isSpecialNode(editor)) {
+                    return false;
+                }
+
                 const { state, dispatch } = editor.view;
                 const { from, to } = state.selection;
 
@@ -40,3 +49,25 @@ export const Indent = Extension.create({
         };
     },
 });
+
+const isSpecialNode = (editor: Editor): boolean => {
+    // return editor.isActive('bulletList') || editor.isActive('orderedList') || editor.isActive('listItem');
+
+    const { state } = editor.view;
+    const { $from } = state.selection;
+    for (let d = $from.depth; d > 0; d--) {
+        const node = $from.node(d);
+        if (
+            node.type.name === 'listItem' ||
+            node.type.name === 'taskItem' ||
+            node.type.name === 'bulletList' ||
+            node.type.name === 'orderedList'
+            // node.type.name === 'image' ||
+            // node.type.name === 'resizableImage' ||
+            // node.type.name === 'youtube'
+        ) {
+            return true;
+        }
+    }
+    return false;
+};
