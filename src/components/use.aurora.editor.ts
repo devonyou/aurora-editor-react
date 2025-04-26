@@ -72,9 +72,22 @@ export function useAuroraEditor({
             Youtube.configure({
                 controls: false,
                 nocookie: true,
+                inline: false,
+                width: 480,
+                height: 270,
+                modestBranding: true,
+                autoplay: false,
                 HTMLAttributes: { class: 'aurora-youtube' },
             }),
-            ResizableImage,
+            ResizableImage.configure({
+                inline: false,
+                allowBase64: true,
+                HTMLAttributes: {
+                    class: 'aurora-resizable-image',
+                    width: '480px',
+                    height: 'auto',
+                },
+            }),
             Underline.configure({
                 HTMLAttributes: { class: 'aurora-underline' },
             }),
@@ -95,6 +108,55 @@ export function useAuroraEditor({
             handleUpdate(editor.getHTML());
         },
     });
+
+    // 이미지 붙여넣기 처리를 위한 이벤트 핸들러
+    useEffect(() => {
+        if (editor) {
+            const handlePaste = (event: ClipboardEvent) => {
+                const items = event.clipboardData?.items;
+
+                if (!items) return;
+
+                for (let i = 0; i < items.length; i++) {
+                    const item = items[i];
+
+                    if (item.type.indexOf('image') === 0) {
+                        const blob = item.getAsFile();
+                        if (blob) {
+                            // 이미지를 붙여넣을 때 기본 크기 설정
+                            const reader = new FileReader();
+                            reader.onload = readerEvent => {
+                                editor
+                                    .chain()
+                                    .focus()
+                                    .insertContent({
+                                        type: 'resizableImage',
+                                        attrs: {
+                                            src: readerEvent.target?.result as string,
+                                            width: '480px',
+                                            height: 'auto',
+                                        },
+                                    })
+                                    .insertContent('<p></p>')
+                                    .run();
+                            };
+                            reader.readAsDataURL(blob);
+                            event.preventDefault();
+                            break;
+                        }
+                    }
+                }
+            };
+
+            // 에디터의 DOM 요소에 붙여넣기 이벤트 리스너 추가
+            const editorElement = editor.view.dom;
+            editorElement.addEventListener('paste', handlePaste);
+
+            return () => {
+                editorElement.removeEventListener('paste', handlePaste);
+            };
+        }
+    }, [editor]);
 
     const handleUpdate = useCallback(
         (newHtml: string) => {

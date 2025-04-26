@@ -70,7 +70,7 @@ export default function Image() {
                     type: 'resizableImage',
                     attrs: {
                         src: imageUrl,
-                        width: '100%',
+                        width: '480px',
                         height: 'auto',
                     },
                 })

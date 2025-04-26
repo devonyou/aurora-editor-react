@@ -11,7 +11,7 @@ export default function App() {
                 initContent={''}
                 placeholder="명령어 사용시에는 '/'를 입력해주세요."
                 tooltip={false}
-                bubble={true}
+                bubble={false}
             >
                 <AuroraToolbar />
                 <AuroraTextarea />

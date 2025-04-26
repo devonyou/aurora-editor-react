@@ -1,40 +1,40 @@
 import { Extension } from '@tiptap/core';
+import { TextSelection } from '@tiptap/pm/state';
 
 export const Indent = Extension.create({
     name: 'tabIndent',
 
     addKeyboardShortcuts() {
         return {
-            Tab: () => {
-                const { state, dispatch } = this.editor.view;
-                const { $from } = state.selection;
+            Tab: ({ editor }) => {
+                const { state, dispatch } = editor.view;
+                const { from, to } = state.selection;
 
-                for (let d = $from.depth; d > 0; d--) {
-                    if ($from.node(d).type.name === 'listItem') {
-                        return false;
-                    }
-                }
+                const selectedText = state.doc.textBetween(from, to, '\n', '\n');
 
-                dispatch(state.tr.insertText('    '));
+                const lines = selectedText.split('\n');
+
+                const indented = lines.map(line => '    ' + line).join('\n');
+
+                const tr = state.tr.insertText(indented, from, to);
+
+                dispatch(tr.setSelection(TextSelection.create(tr.doc, from, from + indented.length)));
                 return true;
             },
 
-            'Shift-Tab': () => {
-                const { state, dispatch } = this.editor.view;
-                const { from } = state.selection;
-                const $start = state.doc.resolve(from);
+            'Shift-Tab': ({ editor }) => {
+                const { state, dispatch } = editor.view;
+                const { from, to } = state.selection;
 
-                for (let d = $start.depth; d > 0; d--) {
-                    if ($start.node(d).type.name === 'listItem') {
-                        return false;
-                    }
-                }
+                const selectedText = state.doc.textBetween(from, to, '\n', '\n');
 
-                const before = state.doc.textBetween(from - 4, from, '\0', '\0');
-                if (before === '    ') {
-                    dispatch(state.tr.delete(from - 4, from));
-                }
+                const lines = selectedText.split('\n');
 
+                const outdented = lines.map(line => (line.startsWith('    ') ? line.slice(4) : line)).join('\n');
+
+                const tr = state.tr.insertText(outdented, from, to);
+
+                dispatch(tr.setSelection(TextSelection.create(tr.doc, from, from + outdented.length)));
                 return true;
             },
         };

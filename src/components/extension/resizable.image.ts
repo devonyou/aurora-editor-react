@@ -17,12 +17,8 @@ export const ResizableImage = Node.create({
             alt: {
                 default: null,
             },
-            width: {
-                default: '100%',
-            },
-            height: {
-                default: 'auto',
-            },
+            width: { default: '480px' },
+            height: { default: 'auto' },
         };
     },
 
@@ -38,8 +34,8 @@ export const ResizableImage = Node.create({
                     return {
                         src: dom.getAttribute('src'),
                         alt: dom.getAttribute('alt'),
-                        width: dom.getAttribute('width') || '100%',
-                        height: dom.getAttribute('height') || 'auto',
+                        width: '480px',
+                        height: 'auto',
                     };
                 },
             },
@@ -174,6 +170,13 @@ export const ResizableImage = Node.create({
             };
         };
 
+        const removeHandles = () => {
+            activeHandles.forEach(handle => {
+                handle.remove();
+            });
+            activeHandles = [];
+        };
+
         return [
             new Plugin({
                 key: new PluginKey('resizableImage'),
@@ -201,29 +204,16 @@ export const ResizableImage = Node.create({
                             }
                             return false;
                         },
-
                         mouseout: (view, event) => {
-                            const target = event.target as HTMLElement;
                             const relatedTarget = event.relatedTarget as HTMLElement;
-
                             if (
-                                target.classList.contains('aurora-resizable-image') &&
-                                !isDragging &&
-                                (!relatedTarget || !relatedTarget.classList.contains('aurora-resize-handle'))
+                                !relatedTarget ||
+                                (!relatedTarget.classList.contains('aurora-resizable-image') &&
+                                    !relatedTarget.classList.contains('aurora-resize-handle'))
                             ) {
-                                setTimeout(() => {
-                                    if (!isMouseOverHandles()) {
-                                        removeHandles();
-                                    }
-                                }, 100);
-                                return false;
-                            }
-                            return false;
-                        },
-
-                        mousedown: (view, event) => {
-                            if ((event.target as HTMLElement).classList.contains('aurora-resizable-image')) {
-                                return false;
+                                if (!isDragging) {
+                                    removeHandles();
+                                }
                             }
                             return false;
                         },
@@ -233,27 +223,6 @@ export const ResizableImage = Node.create({
         ];
     },
 });
-
-function isMouseOverHandles(): boolean {
-    const handles = document.querySelectorAll('.aurora-resize-handle');
-    const mouseEvent = window.event as MouseEvent;
-    const x = mouseEvent?.clientX || 0;
-    const y = mouseEvent?.clientY || 0;
-
-    for (const handle of Array.from(handles)) {
-        const rect = handle.getBoundingClientRect();
-
-        if (x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom) {
-            return true;
-        }
-    }
-    return false;
-}
-
-function removeHandles() {
-    const handles = document.querySelectorAll('.aurora-resize-handle');
-    handles.forEach(handle => handle.remove());
-}
 
 function createResizeHandles(imageElement: HTMLImageElement): HTMLElement[] {
     const positions = ['nw', 'ne', 'se', 'sw'];
@@ -280,6 +249,22 @@ function createResizeHandles(imageElement: HTMLImageElement): HTMLElement[] {
     });
 }
 
+function updateHandlePosition(handle: HTMLElement, position: string, rect: DOMRect) {
+    if (position === 'nw') {
+        handle.style.left = `${rect.left - 5 + window.scrollX}px`;
+        handle.style.top = `${rect.top - 5 + window.scrollY}px`;
+    } else if (position === 'ne') {
+        handle.style.left = `${rect.right - 5 + window.scrollX}px`;
+        handle.style.top = `${rect.top - 5 + window.scrollY}px`;
+    } else if (position === 'se') {
+        handle.style.left = `${rect.right - 5 + window.scrollX}px`;
+        handle.style.top = `${rect.bottom - 5 + window.scrollY}px`;
+    } else if (position === 'sw') {
+        handle.style.left = `${rect.left - 5 + window.scrollX}px`;
+        handle.style.top = `${rect.bottom - 5 + window.scrollY}px`;
+    }
+}
+
 function updateHandlePositions(handles: HTMLElement[], imageElement: HTMLImageElement) {
     const rect = imageElement.getBoundingClientRect();
     const positions = ['nw', 'ne', 'se', 'sw'];
@@ -287,28 +272,4 @@ function updateHandlePositions(handles: HTMLElement[], imageElement: HTMLImageEl
     handles.forEach((handle, index) => {
         updateHandlePosition(handle, positions[index], rect);
     });
-}
-
-function updateHandlePosition(handle: HTMLElement, position: string, rect: DOMRect) {
-    const scrollX = window.scrollX;
-    const scrollY = window.scrollY;
-
-    switch (position) {
-        case 'nw':
-            handle.style.left = `${rect.left + scrollX - 5}px`;
-            handle.style.top = `${rect.top + scrollY - 5}px`;
-            break;
-        case 'ne':
-            handle.style.left = `${rect.right + scrollX - 5}px`;
-            handle.style.top = `${rect.top + scrollY - 5}px`;
-            break;
-        case 'se':
-            handle.style.left = `${rect.right + scrollX - 5}px`;
-            handle.style.top = `${rect.bottom + scrollY - 5}px`;
-            break;
-        case 'sw':
-            handle.style.left = `${rect.left + scrollX - 5}px`;
-            handle.style.top = `${rect.bottom + scrollY - 5}px`;
-            break;
-    }
 }
