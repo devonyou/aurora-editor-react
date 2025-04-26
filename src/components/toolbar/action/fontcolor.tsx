@@ -1,24 +1,28 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import AuroraTooltip from '../../tooltip/aurora.tooltip';
 import { Button, ColorPicker, Flex, Popover, Typography } from 'antd';
-import { FontColorsOutlined } from '@ant-design/icons';
+import { CheckOutlined, FontColorsOutlined } from '@ant-design/icons';
 import { useAuroraContext } from '../../aurora.provider';
 import { AggregationColor } from 'antd/es/color-picker/color';
 
 const { Text } = Typography;
 
-const presetColors = [
+const fontColorPresets = [
     '#000000',
-    '#bfbfbf',
-    '#ffffff',
-    '#f5222d',
-    '#1677ff',
-    '#52c41a',
-    '#faad14',
-    '#13c2c2',
-    '#722ed1',
-    '#eb2f96',
+    '#F43F5E',
+    '#F87171',
+    '#F59E0B',
+    '#EAB308',
+    '#FB923C',
+    '#64748B',
+    '#2563EB',
+    '#22D3EE',
+    '#60A5FA',
+    '#A78BFA',
+    '#34D399',
 ];
+const bgColorPresets = ['#FFF7ED', '#FEF9C3', '#ECFCCB', '#CFFAFE', '#EDE9FE', '#FFE4E6'];
+const bgColoVisiblePresets = ['#FF6F20', '#F2D400', '#27AE60', '#00BFFF', '#9B4DFF', '#FF4B5C'];
 
 export default function FontColor() {
     const { editor } = useAuroraContext();
@@ -26,14 +30,6 @@ export default function FontColor() {
     const [open, setOpen] = useState(false);
     const [fontColor, setFontColor] = useState('#000000');
     const [bgColor, setBgColor] = useState('#ffffff');
-
-    // useEffect(() => {
-    //     return () => {
-    //         if (debounceTimerRef.current) {
-    //             clearTimeout(debounceTimerRef.current);
-    //         }
-    //     };
-    // }, []);
 
     useEffect(() => {
         const handleSelectionUpdate = () => {
@@ -48,72 +44,64 @@ export default function FontColor() {
         };
     }, [editor]);
 
-    // useDebounce(
-    //     () => {
-    //         if (!editor) return;
-    //         editor.chain().focus().toggleHighlight({ color: bgColor }).run();
-    //     },
-    //     300,
-    //     [bgColor]
-    // );
-
-    // const handleFontColorChange =
-    // useCallback();
-    // (color: AggregationColor) => {
-    //     if (debounceTimerRef.current) {
-    //         clearTimeout(debounceTimerRef.current);
-    //     }
-
-    //     debounceTimerRef.current = setTimeout(() => {
-    //         const colorHex = color.toHexString();
-    //         setFontColor(colorHex);
-    //         editor?.chain().focus().setColor(colorHex).run();
-    //         debounceTimerRef.current = null;
-    //     }, 100);
-    // },
-    // [editor]
-
     const handleFontColorChange = useCallback(
-        (color: AggregationColor) => {
-            const colorHex = color.toHexString();
-            setFontColor(colorHex);
-            editor?.chain().focus().setColor(colorHex).run();
+        (color: string) => {
+            setFontColor(color);
+            editor?.chain().focus().setColor(color).run();
         },
         [editor]
     );
 
     const handleBgColorChange = useCallback(
-        (color: AggregationColor) => {
-            const colorHex = color.toHexString();
-            setBgColor(colorHex);
-            editor?.chain().focus().toggleHighlight({ color: colorHex }).run();
+        (color: string) => {
+            setBgColor(color);
+            editor?.chain().focus().toggleHighlight({ color: color }).run();
         },
         [editor]
     );
 
     const renderColorPickers = () => (
-        <Flex vertical gap={'small'}>
+        <Flex vertical gap={'small'} style={{ width: 220 }}>
             <Text style={{ fontSize: '0.7rem' }}>글꼴색</Text>
-            <ColorPicker
-                value={fontColor}
-                onChange={handleFontColorChange}
-                presets={[{ label: '글꼴색', colors: presetColors }]}
-                panelRender={(_, { components: { Presets } }) => <Presets />}
-            />
+            <Flex gap={'small'} wrap="wrap">
+                {Array.from({ length: Math.ceil(fontColorPresets.length / 6) }).map((_, rowIndex) => (
+                    <Flex key={rowIndex} gap="small" style={{ width: '100%' }}>
+                        {fontColorPresets.slice(rowIndex * 6, rowIndex * 6 + 6).map(color => (
+                            <Button
+                                key={color}
+                                type={'text'}
+                                size="small"
+                                style={{
+                                    backgroundColor: color,
+                                    height: 30,
+                                    width: 30,
+                                }}
+                                onClick={() => handleFontColorChange(color)}
+                                icon={fontColor === color ? <CheckOutlined style={{ color: '#FFF' }} /> : null}
+                            />
+                        ))}
+                    </Flex>
+                ))}
+            </Flex>
             <Text style={{ fontSize: '0.7rem' }}>배경색</Text>
-            <ColorPicker
-                value={bgColor}
-                onChange={handleBgColorChange}
-                presets={[{ label: '배경색', colors: presetColors }]}
-                panelRender={(_, { components: { Presets } }) => <Presets />}
-            />
+            <Flex gap={'small'}>
+                {bgColorPresets.map((color, i) => (
+                    <Button
+                        key={color}
+                        type={'text'}
+                        size="small"
+                        style={{ backgroundColor: bgColoVisiblePresets[i], height: 30, width: 30 }}
+                        onClick={() => handleBgColorChange(color)}
+                        icon={bgColor === color ? <CheckOutlined style={{ color: '#FFF' }} /> : null}
+                    />
+                ))}
+            </Flex>
         </Flex>
     );
 
     return (
         <AuroraTooltip title="글자색" placement="bottom">
             <Popover content={renderColorPickers()} trigger="click" open={open} onOpenChange={setOpen}>
-                {/* <Button icon={<FontColorsOutlined style={{ color: fontColor }} />} type="text"></Button> */}
                 <Button icon={<FontColorsOutlined />} type="text"></Button>
             </Popover>
         </AuroraTooltip>
