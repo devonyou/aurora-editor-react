@@ -1,6 +1,7 @@
 import { Space } from 'antd';
 import { Align, Bold, FontColor, Head, Italic, Link, Strike, Underline } from '../toolbar/action';
 import { useAuroraContext } from '../aurora.provider';
+import { Controller } from '../toolbar/action';
 
 export default function Bubble() {
     const { editor } = useAuroraContext();
@@ -17,6 +18,7 @@ export default function Bubble() {
             }}
         >
             <Space>
+                <Controller />
                 <Bold />
                 <Italic />
                 <Underline />

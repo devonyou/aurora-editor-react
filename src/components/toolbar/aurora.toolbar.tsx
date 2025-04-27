@@ -16,6 +16,7 @@ import {
     Youtube,
     Image,
     Blockquote,
+    Controller,
 } from './action';
 
 export default function AuroraToolbar({}: AuroraToolbarProps) {
@@ -24,26 +25,27 @@ export default function AuroraToolbar({}: AuroraToolbarProps) {
             <Row gutter={[4, 4]} justify="start" align="bottom">
                 <Col xl={24} lg={24} md={24} sm={24} xs={24}>
                     <Flex align="center" wrap="wrap" gap={4}>
+                        <Controller />
                         <Bold />
                         <Italic />
                         <Underline />
                         <Strike />
                         <Divider type="vertical" style={{ height: '20px' }} />
                         <FontColor />
-                        <Head />
+                        {/* <Head /> */}
                         <Align />
-                        <Horizontal />
-                        <Blockquote />
-                        <Divider type="vertical" style={{ height: '20px' }} />
+                        {/* <Blockquote /> */}
+                        {/* <Divider type="vertical" style={{ height: '20px' }} /> */}
                         {/* <Order  /> */}
-                        <Unorder />
-                        <Check />
+                        {/* <Unorder /> */}
+                        {/* <Check /> */}
                         <Divider type="vertical" style={{ height: '20px' }} />
+                        <Horizontal />
                         <Link />
                         <Image />
                         <Youtube />
-                        <Divider type="vertical" style={{ height: '20px' }} />
-                        <Codeblock />
+                        {/* <Divider type="vertical" style={{ height: '20px' }} /> */}
+                        {/* <Codeblock /> */}
                     </Flex>
                 </Col>
                 {/* <Col xl={12} lg={12} md={12} sm={24} xs={24}>

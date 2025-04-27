@@ -1,3 +1,4 @@
+export { default as Controller } from './controller';
 export { default as Bold } from './bold';
 export { default as Italic } from './italic';
 export { default as Strike } from './strike';

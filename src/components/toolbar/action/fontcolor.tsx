@@ -3,7 +3,6 @@ import AuroraTooltip from '../../tooltip/aurora.tooltip';
 import { Button, ColorPicker, Flex, Popover, Typography } from 'antd';
 import { CheckOutlined, FontColorsOutlined } from '@ant-design/icons';
 import { useAuroraContext } from '../../aurora.provider';
-import { AggregationColor } from 'antd/es/color-picker/color';
 
 const { Text } = Typography;
 

@@ -10,7 +10,7 @@
     min-height: 150px;
 }
 
-.auroraEditorContainer :global(.aurora-editor-textarea #tippy-1 .tippy-box) {
+.auroraEditorContainer :global(.aurora-editor-textarea .tippy-box) {
     max-width: none !important;
 }
 

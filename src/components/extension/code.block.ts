@@ -52,6 +52,39 @@ export const CustomCodeBlock = CodeBlockLowlight.extend({
     addNodeView() {
         return ReactNodeViewRenderer(CodeBlockView);
     },
+    addCommands() {
+        return {
+            ...this.parent?.(),
+            toggleCodeBlock:
+                attributes =>
+                ({ commands, state, editor }) => {
+                    const { selection } = state;
+                    const { $from, $to } = selection;
+
+                    const isActive = editor.isActive(this.name);
+
+                    const isMultipleLines = $from.pos !== $to.pos && $from.parent.type.name !== 'codeBlock';
+
+                    if (isActive) {
+                        return commands.toggleNode(this.name, 'paragraph', attributes);
+                    }
+
+                    if (isMultipleLines) {
+                        const content = state.doc.textBetween($from.pos, $to.pos, '\n');
+
+                        commands.deleteRange({ from: $from.pos, to: $to.pos });
+
+                        return commands.insertContent({
+                            type: this.name,
+                            attrs: attributes,
+                            content: [{ type: 'text', text: content }],
+                        });
+                    }
+
+                    return commands.toggleNode(this.name, 'paragraph', attributes);
+                },
+        };
+    },
 });
 
 export const CodeBlock = CustomCodeBlock.configure({
