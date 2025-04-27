@@ -2,8 +2,90 @@ import { Extension } from '@tiptap/core';
 import { TextSelection } from '@tiptap/pm/state';
 import { Editor } from '@tiptap/core';
 
+const INDENT_ATTRIBUTE = 'data-indent-level';
+
+const indentSelection = (
+    editor: Editor,
+    dir: number,
+    options: { types: string[]; minIndentLevel: number; maxIndentLevel: number }
+) => {
+    const { state, dispatch } = editor.view;
+    const { selection } = state;
+    const { from, to } = selection;
+
+    let changed = false;
+    const tr = state.tr;
+
+    state.doc.nodesBetween(from, to, (node, pos) => {
+        if (options.types.includes(node.type.name)) {
+            const indent = (node.attrs.indent || 0) + dir;
+
+            if (indent >= options.minIndentLevel && indent <= options.maxIndentLevel) {
+                tr.setNodeMarkup(pos, undefined, {
+                    ...node.attrs,
+                    indent,
+                });
+                changed = true;
+            }
+        }
+    });
+
+    if (changed) {
+        dispatch(tr);
+        return true;
+    }
+
+    return false;
+};
+
+const isCursorAtLineStart = (editor: Editor): boolean => {
+    const { state } = editor.view;
+    const { selection } = state;
+
+    if (!selection.empty) return false;
+
+    const { $cursor } = selection as TextSelection;
+    if (!$cursor) return false;
+
+    return $cursor.parentOffset === 0;
+};
+
 export const Indent = Extension.create({
-    name: 'tabIndent',
+    name: 'indent',
+
+    addOptions() {
+        return {
+            types: ['paragraph', 'heading'],
+            maxIndentLevel: 5,
+            minIndentLevel: 0,
+        };
+    },
+
+    addGlobalAttributes() {
+        return [
+            {
+                types: this.options.types,
+                attributes: {
+                    indent: {
+                        default: 0,
+                        parseHTML: element => {
+                            return parseInt(element.getAttribute(INDENT_ATTRIBUTE) || '0', 10);
+                        },
+                        renderHTML: attributes => {
+                            if (!attributes.indent) {
+                                return {};
+                            }
+
+                            return {
+                                [INDENT_ATTRIBUTE]: attributes.indent,
+                                style: `padding-left: ${attributes.indent * 2}em`,
+                            };
+                        },
+                    },
+                },
+            },
+        ];
+    },
 
     addKeyboardShortcuts() {
         return {
@@ -13,17 +95,20 @@ export const Indent = Extension.create({
                 }
 
                 const { state, dispatch } = editor.view;
-                const { from, to } = state.selection;
+                const { selection } = state;
 
-                const selectedText = state.doc.textBetween(from, to, '\n', '\n');
+                // 선택 영역이 있으면 들여쓰기 적용
+                if (!selection.empty) {
+                    return indentSelection(editor, 1, this.options);
+                }
 
-                const lines = selectedText.split('\n');
+                // 커서가 줄 시작 위치에 있으면 들여쓰기 적용
+                if (isCursorAtLineStart(editor)) {
+                    return indentSelection(editor, 1, this.options);
+                }
 
-                const indented = lines.map(line => '    ' + line).join('\n');
-
-                const tr = state.tr.insertText(indented, from, to);
-
-                dispatch(tr.setSelection(TextSelection.create(tr.doc, from, from + indented.length)));
+                // 그 외 경우에는 공백 4칸 삽입
+                dispatch(state.tr.insertText('    '));
                 return true;
             },
 
@@ -32,19 +117,23 @@ export const Indent = Extension.create({
                     return false;
                 }
 
-                const { state, dispatch } = editor.view;
-                const { from, to } = state.selection;
+                return indentSelection(editor, -1, this.options);
+            },
 
-                const selectedText = state.doc.textBetween(from, to, '\n', '\n');
+            Backspace: ({ editor }) => {
+                if (isSpecialNode(editor) || !isCursorAtLineStart(editor)) {
+                    return false;
+                }
 
-                const lines = selectedText.split('\n');
+                const { state } = editor.view;
+                const { $from } = state.selection;
+                const node = $from.parent;
 
-                const outdented = lines.map(line => (line.startsWith('    ') ? line.slice(4) : line)).join('\n');
+                if (node.attrs.indent && node.attrs.indent > 0) {
+                    return indentSelection(editor, -1, this.options);
+                }
 
-                const tr = state.tr.insertText(outdented, from, to);
-
-                dispatch(tr.setSelection(TextSelection.create(tr.doc, from, from + outdented.length)));
-                return true;
+                return false;
             },
         };
     },
