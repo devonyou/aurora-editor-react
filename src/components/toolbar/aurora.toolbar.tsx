@@ -35,13 +35,14 @@ export default function AuroraToolbar({}: AuroraToolbarProps) {
                         {/* <Head /> */}
                         <Align />
                         {/* <Blockquote /> */}
+                        <Link />
                         {/* <Divider type="vertical" style={{ height: '20px' }} /> */}
                         {/* <Order  /> */}
                         {/* <Unorder /> */}
                         {/* <Check /> */}
                         <Divider type="vertical" style={{ height: '20px' }} />
                         <Horizontal />
-                        <Link />
+
                         <Image />
                         <Youtube />
                         {/* <Divider type="vertical" style={{ height: '20px' }} /> */}

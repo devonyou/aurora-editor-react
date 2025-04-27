@@ -37,7 +37,7 @@ export default function BubbleContainer({ editor, bubble }: BubbleContainerProps
             {bubble && (
                 <BubbleMenu
                     editor={editor}
-                    tippyOptions={{ duration: 100, placement: 'bottom' }}
+                    tippyOptions={{ duration: 100, placement: 'bottom-start', sticky: true }}
                     shouldShow={shouldShowBubble}
                 >
                     <Bubble />

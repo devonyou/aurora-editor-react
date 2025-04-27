@@ -24,10 +24,11 @@ export default function bold() {
     return (
         <AuroraTooltip title="굵게" placement="bottom">
             <Button
-                icon={<BoldOutlined />}
+                icon={<BoldOutlined style={{ fontSize: 17 }} />}
                 type={editor?.isActive('bold') ? 'primary' : 'text'}
                 onClick={toggle}
                 disabled={!editor}
+                size="middle"
             />
         </AuroraTooltip>
     );

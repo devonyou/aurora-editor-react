@@ -24,7 +24,6 @@ export default function Bubble() {
                 <Underline />
                 <Strike />
                 <FontColor />
-                <Head />
                 <Align />
                 <Link />
             </Space>
