@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useAuroraContext } from '../aurora.provider';
 import { EditorContent } from '@tiptap/react';
 import BubbleContainer from '../bubble/bubble.container';
@@ -6,6 +6,7 @@ import BubbleContainer from '../bubble/bubble.container';
 export default function AuroraTextarea() {
     const { editor, bubble } = useAuroraContext();
     const [isEditable, setIsEditable] = useState(true);
+    const editorRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         if (editor) {
@@ -19,6 +20,7 @@ export default function AuroraTextarea() {
             <EditorContent
                 editor={editor}
                 spellCheck={false}
+                ref={editorRef}
                 style={{
                     width: 'inherit',
                     height: 'inherit',

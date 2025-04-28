@@ -3,20 +3,15 @@ import { AuroraToolbarProps } from '.';
 import {
     Align,
     Bold,
-    Check,
-    Codeblock,
     FontColor,
-    Head,
     Horizontal,
     Italic,
     Link,
     Strike,
-    Underline,
-    Unorder,
     Youtube,
     Image,
-    Blockquote,
     Controller,
+    Underline,
 } from './action';
 
 export default function AuroraToolbar({}: AuroraToolbarProps) {
@@ -32,21 +27,12 @@ export default function AuroraToolbar({}: AuroraToolbarProps) {
                         <Strike />
                         <Divider type="vertical" style={{ height: '20px' }} />
                         <FontColor />
-                        {/* <Head /> */}
                         <Align />
-                        {/* <Blockquote /> */}
                         <Link />
-                        {/* <Divider type="vertical" style={{ height: '20px' }} /> */}
-                        {/* <Order  /> */}
-                        {/* <Unorder /> */}
-                        {/* <Check /> */}
                         <Divider type="vertical" style={{ height: '20px' }} />
                         <Horizontal />
-
                         <Image />
                         <Youtube />
-                        {/* <Divider type="vertical" style={{ height: '20px' }} /> */}
-                        {/* <Codeblock /> */}
                     </Flex>
                 </Col>
                 {/* <Col xl={12} lg={12} md={12} sm={24} xs={24}>

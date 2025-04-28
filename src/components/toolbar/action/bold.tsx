@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import AuroraTooltip from '../../tooltip/aurora.tooltip';
 import { Button } from 'antd';
 import { BoldOutlined } from '@ant-design/icons';
 import { useAuroraContext } from '../../aurora.provider';
+import AuroraTooltip from '../../tooltip/aurora.tooltip';
 
 export default function bold() {
     const { editor } = useAuroraContext();
@@ -24,7 +24,7 @@ export default function bold() {
     return (
         <AuroraTooltip title="굵게" placement="bottom">
             <Button
-                icon={<BoldOutlined style={{ fontSize: 17 }} />}
+                icon={<BoldOutlined />}
                 type={editor?.isActive('bold') ? 'primary' : 'text'}
                 onClick={toggle}
                 disabled={!editor}

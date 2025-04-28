@@ -10,7 +10,7 @@ export default function App() {
                 ref={editorRef}
                 initContent={''}
                 placeholder="명령어 사용시에는 '/'를 입력해주세요."
-                tooltip={false}
+                tooltip={true}
                 bubble={true}
             >
                 <AuroraToolbar />

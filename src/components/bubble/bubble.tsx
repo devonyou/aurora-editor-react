@@ -1,5 +1,5 @@
 import { Space } from 'antd';
-import { Align, Bold, FontColor, Head, Italic, Link, Strike, Underline } from '../toolbar/action';
+import { Align, Bold, FontColor, Italic, Link, Strike, Underline } from '../toolbar/action';
 import { useAuroraContext } from '../aurora.provider';
 import { Controller } from '../toolbar/action';
 

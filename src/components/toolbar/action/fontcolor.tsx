@@ -1,6 +1,6 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import AuroraTooltip from '../../tooltip/aurora.tooltip';
-import { Button, ColorPicker, Flex, Popover, Typography } from 'antd';
+import { Button, Flex, Popover, Typography } from 'antd';
 import { CheckOutlined, FontColorsOutlined } from '@ant-design/icons';
 import { useAuroraContext } from '../../aurora.provider';
 

@@ -27,7 +27,7 @@ export const AuroraEditor = forwardRef<AuroraEditorHandle, AuroraEditorProps>((p
             <AntdConfigProvider
                 theme={{
                     token: {
-                        colorPrimary: '#1677ff',
+                        colorPrimary: '#60A5FA',
                         fontFamily: 'ACCchildrenheartOTF-Regular',
                     },
                     components: {

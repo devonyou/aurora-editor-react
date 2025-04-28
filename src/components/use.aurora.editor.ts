@@ -14,6 +14,8 @@ import Highlight from '@tiptap/extension-highlight';
 import { CodeBlock } from './extension/code.block';
 import { Indent } from './extension/indent';
 import { ResizableImage } from './extension/resizable.image';
+import AutoJoiner from 'tiptap-extension-auto-joiner';
+import DragHandle from './extension/drag.handle';
 
 interface UseAuroraEditorOptions {
     content?: string;
@@ -91,9 +93,8 @@ export function useAuroraEditor({
             Underline.configure({
                 HTMLAttributes: { class: 'aurora-underline' },
             }),
-            // DragHandle.configure({
-            //     handleClass: 'aurora-drag-handle',
-            // }),
+            AutoJoiner.configure({}),
+            DragHandle,
         ];
 
         return extensions;

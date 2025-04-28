@@ -20,6 +20,7 @@
     min-height: 100%;
     text-align: justify;
     padding: 1rem;
+    padding-left: 2.5rem !important;
 }
 
 .auroraEditorContainer :global(.aurora-editor-textarea .ProseMirror:focus) {
@@ -39,7 +40,7 @@
 }
 
 .auroraEditorContainer :global(.aurora-editor-textarea .ProseMirror a) {
-    color: #1677ff !important;
+    color: #60a5fa !important;
     text-decoration: none;
     transition: opacity 0.2s ease-in-out;
     cursor: pointer;
@@ -50,7 +51,7 @@
 }
 
 .auroraEditorContainer :global(.aurora-editor-textarea .ProseMirror a:visited) {
-    color: #1677ff;
+    color: #60a5fa;
 }
 
 .auroraEditorContainer :global(.aurora-editor-textarea .ProseMirror h1),
@@ -118,8 +119,8 @@
             label
             input[type='checkbox']:checked
     ) {
-    background-color: #1677ff;
-    border-color: #1677ff;
+    background-color: #60a5fa;
+    border-color: #60a5fa;
 }
 
 .auroraEditorContainer
@@ -192,7 +193,7 @@
 }
 
 .auroraEditorContainer :global(.aurora-editor-textarea hr.ProseMirror-selectednode) {
-    border-top: 2px solid #1677ff;
+    border-top: 2px solid #60a5fa;
     box-shadow: 0 0 0 2px rgba(22, 119, 255, 0.2);
 }
 
@@ -200,7 +201,6 @@
     border-top: 2px solid #4096ff;
 }
 
-/**********************************************************************************************/
 .auroraEditorContainer :global(.aurora-editor-textarea .link-button-container) {
     position: relative;
     display: inline-block;
@@ -283,4 +283,61 @@
 .auroraEditorContainer :global(.aurora-horizontal-rule) {
     margin: 1.5em 0;
     border: none;
+}
+
+/** 드래그 핸들 스타일 */
+.auroraEditorContainer :global(.drag-handle) {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+    background-color: #ffffff;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: grab;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    user-select: none;
+    transition: opacity 0.2s;
+    font-size: 0;
+    color: transparent;
+}
+
+.auroraEditorContainer :global(.drag-handle)::before {
+    content: '';
+    width: 10px;
+    height: 14px;
+    background: radial-gradient(circle, #999 1.5px, transparent 1.5px) top left / 50% 33% no-repeat,
+        radial-gradient(circle, #999 1.5px, transparent 1.5px) top right / 50% 33% no-repeat,
+        radial-gradient(circle, #999 1.5px, transparent 1.5px) center left / 50% 33% no-repeat,
+        radial-gradient(circle, #999 1.5px, transparent 1.5px) center right / 50% 33% no-repeat,
+        radial-gradient(circle, #999 1.5px, transparent 1.5px) bottom left / 50% 33% no-repeat,
+        radial-gradient(circle, #999 1.5px, transparent 1.5px) bottom right / 50% 33% no-repeat;
+    background-repeat: no-repeat;
+}
+
+.auroraEditorContainer :global(.drag-handle.hide) {
+    opacity: 0;
+}
+
+.auroraEditorContainer :global(.drag-handle:hover) {
+    background-color: #f0f0f0;
+}
+
+.auroraEditorContainer :global(.drag-handle svg) {
+    width: 18px;
+    height: 18px;
+    background-color: red;
+}
+
+.auroraEditorContainer :global(.aurora-drop-position-marker) {
+    position: absolute;
+    height: 3px;
+    background-color: #1890ff;
+    pointer-events: none;
+    z-index: 100;
+    width: 100%;
+    left: 0;
+    box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
 }
