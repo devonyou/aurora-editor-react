@@ -1,6 +1,4 @@
-import { EditorState } from '@tiptap/pm/state';
-import { EditorView } from '@tiptap/pm/view';
-import { Editor, BubbleMenu } from '@tiptap/react';
+import { Editor, BubbleMenu, isTextSelection } from '@tiptap/react';
 import Bubble from './bubble';
 
 interface BubbleContainerProps {
@@ -9,36 +7,19 @@ interface BubbleContainerProps {
 }
 
 export default function BubbleContainer({ editor, bubble }: BubbleContainerProps) {
-    const shouldShowBubble = ({
-        editor,
-        view,
-        state,
-        from,
-        to,
-    }: {
-        editor: Editor;
-        view: EditorView;
-        state: EditorState;
-        from: number;
-        to: number;
-    }) => {
-        if (from === to) return false;
-
-        const isImage = editor.isActive('resizableImage') || editor.isActive('image');
-        const isCodeBlock = editor.isActive('codeBlock');
-        const isYoutube = editor.isActive('youtube');
-        const isHr = editor.isActive('horizontalRule');
-
-        return !isImage && !isCodeBlock && !isYoutube && !isHr;
-    };
-
     return (
         <>
             {bubble && (
                 <BubbleMenu
                     editor={editor}
                     tippyOptions={{ duration: 100, placement: 'bottom-start', sticky: true }}
-                    shouldShow={shouldShowBubble}
+                    shouldShow={({ editor, state, from, to }) => {
+                        if (from === to) return false;
+
+                        const { selection } = state;
+                        const isText = isTextSelection(selection);
+                        return isText;
+                    }}
                 >
                     <Bubble />
                 </BubbleMenu>

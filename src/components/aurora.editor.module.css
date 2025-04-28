@@ -36,7 +36,9 @@
 }
 
 .auroraEditorContainer :global(.aurora-editor-textarea .ProseMirror p) {
-    margin: 0.5em 0;
+    margin: 8px 0;
+    color: #14171a;
+    font-size: 17px;
 }
 
 .auroraEditorContainer :global(.aurora-editor-textarea .ProseMirror a) {
@@ -285,11 +287,10 @@
     border: none;
 }
 
-/** 드래그 핸들 스타일 */
 .auroraEditorContainer :global(.drag-handle) {
     position: absolute;
-    width: 24px;
-    height: 24px;
+    width: 27px;
+    height: 27px;
     margin-right: 10px;
     background-color: #ffffff;
     border-radius: 3px;
@@ -297,7 +298,7 @@
     align-items: center;
     justify-content: center;
     cursor: grab;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    /* box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); */
     user-select: none;
     transition: opacity 0.2s;
     font-size: 0;
@@ -322,7 +323,7 @@
 }
 
 .auroraEditorContainer :global(.drag-handle:hover) {
-    background-color: #f0f0f0;
+    /* background-color: #f0f0f0; */
 }
 
 .auroraEditorContainer :global(.drag-handle svg) {

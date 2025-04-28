@@ -11,11 +11,12 @@ import Youtube from '@tiptap/extension-youtube';
 import TextStyle from '@tiptap/extension-text-style';
 import Color from '@tiptap/extension-color';
 import Highlight from '@tiptap/extension-highlight';
+import Dropcursor from '@tiptap/extension-dropcursor';
 import { CodeBlock } from './extension/code.block';
 import { Indent } from './extension/indent';
 import { ResizableImage } from './extension/resizable.image';
 import AutoJoiner from 'tiptap-extension-auto-joiner';
-import DragHandle from './extension/drag.handle';
+import DragHandle from 'tiptap-extension-global-drag-handle';
 
 interface UseAuroraEditorOptions {
     content?: string;
@@ -39,6 +40,11 @@ export function useAuroraEditor({
             StarterKit.configure({
                 heading: { levels: [1, 2, 3] },
                 codeBlock: false,
+                dropcursor: false,
+            }),
+            Dropcursor.configure({
+                color: '#C5D8F7',
+                width: 5,
             }),
             Indent,
             TextStyle.configure({ mergeNestedSpanStyles: true }),
@@ -47,18 +53,11 @@ export function useAuroraEditor({
                 alignments: ['left', 'center', 'right', 'justify'],
                 defaultAlignment: 'left',
             }),
-            Color.configure({
-                types: ['textStyle', 'highlight'],
-            }),
+            Color.configure({ types: ['textStyle', 'highlight'] }),
             Highlight.configure({ multicolor: true }),
             Placeholder.configure({ placeholder }),
-            TaskList.configure({
-                HTMLAttributes: { class: 'aurora-task-list' },
-            }),
-            TaskItem.configure({
-                nested: true,
-                HTMLAttributes: { class: 'aurora-task-list-item' },
-            }),
+            TaskList.configure({ HTMLAttributes: { class: 'aurora-task-list' } }),
+            TaskItem.configure({ nested: true, HTMLAttributes: { class: 'aurora-task-list-item' } }),
             Link.configure({
                 openOnClick: true,
                 autolink: true,
@@ -68,9 +67,7 @@ export function useAuroraEditor({
                 shouldAutoLink: url => !!url,
                 HTMLAttributes: { class: 'aurora-link' },
             }),
-            CodeBlock.configure({
-                HTMLAttributes: { class: 'aurora-code-block' },
-            }),
+            CodeBlock.configure({ HTMLAttributes: { class: 'aurora-code-block' } }),
             Youtube.configure({
                 controls: false,
                 nocookie: true,
@@ -84,17 +81,17 @@ export function useAuroraEditor({
             ResizableImage.configure({
                 inline: false,
                 allowBase64: true,
-                HTMLAttributes: {
-                    class: 'aurora-resizable-image',
-                    width: '480px',
-                    height: 'auto',
-                },
+                HTMLAttributes: { class: 'aurora-resizable-image', width: '480px', height: 'auto' },
             }),
-            Underline.configure({
-                HTMLAttributes: { class: 'aurora-underline' },
-            }),
+            Underline.configure({ HTMLAttributes: { class: 'aurora-underline' } }),
             AutoJoiner.configure({}),
-            DragHandle,
+            DragHandle.configure({
+                dragHandleWidth: 27,
+                scrollTreshold: 100,
+                dragHandleSelector: 'aurora-drag-handle',
+                excludedTags: [],
+                customNodes: [],
+            }),
         ];
 
         return extensions;

@@ -68,7 +68,7 @@ export default function Align() {
     return (
         <AuroraTooltip title="정렬" placement="bottom">
             <Dropdown menu={{ items: alignItems }} trigger={['click']} placement="bottom" disabled={!editor} arrow>
-                <Button type={'text'} disabled={!editor}>
+                <Button type={'text'} disabled={!editor} size="large">
                     <Space>
                         <AlignIcon />
                     </Space>

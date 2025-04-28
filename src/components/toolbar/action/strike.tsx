@@ -28,6 +28,7 @@ export default function Strike() {
                 type={editor?.isActive('strike') ? 'primary' : 'text'}
                 onClick={toggle}
                 disabled={!editor}
+                size="large"
             />
         </AuroraTooltip>
     );

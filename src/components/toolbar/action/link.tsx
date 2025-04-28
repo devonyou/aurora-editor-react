@@ -115,6 +115,7 @@ export default function Link() {
                     type={editor?.isActive('link') ? 'primary' : 'text'}
                     onClick={toggleLink}
                     disabled={!editor}
+                    size="large"
                 />
             </AuroraTooltip>
 

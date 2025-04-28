@@ -7,7 +7,7 @@ import { useAuroraContext } from '../../aurora.provider';
 const { Text } = Typography;
 
 const fontColorPresets = [
-    '#000000',
+    '#14171a',
     '#F43F5E',
     '#F87171',
     '#F59E0B',
@@ -27,7 +27,7 @@ export default function FontColor() {
     const { editor } = useAuroraContext();
     // const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
     const [open, setOpen] = useState(false);
-    const [fontColor, setFontColor] = useState('#000000');
+    const [fontColor, setFontColor] = useState('#14171a');
     const [bgColor, setBgColor] = useState('#ffffff');
 
     useEffect(() => {
@@ -101,7 +101,7 @@ export default function FontColor() {
     return (
         <AuroraTooltip title="글자색" placement="bottom">
             <Popover content={renderColorPickers()} trigger="click" open={open} onOpenChange={setOpen}>
-                <Button icon={<FontColorsOutlined />} type="text"></Button>
+                <Button icon={<FontColorsOutlined />} type="text" size="large"></Button>
             </Popover>
         </AuroraTooltip>
     );

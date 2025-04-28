@@ -23,7 +23,13 @@ export default function HorizontalRule() {
 
     return (
         <AuroraTooltip title="구분선" placement="bottom">
-            <Button icon={<LineOutlined />} type="text" onClick={insertHorizontalRule} disabled={!editor} />
+            <Button
+                icon={<LineOutlined />}
+                type="text"
+                onClick={insertHorizontalRule}
+                disabled={!editor}
+                size="large"
+            />
         </AuroraTooltip>
     );
 }
