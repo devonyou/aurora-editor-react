@@ -38,7 +38,7 @@
 .auroraEditorContainer :global(.aurora-editor-textarea .ProseMirror p) {
     margin: 8px 0;
     color: #14171a;
-    font-size: 17px;
+    font-size: 16px;
 }
 
 .auroraEditorContainer :global(.aurora-editor-textarea .ProseMirror a) {

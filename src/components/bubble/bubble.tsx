@@ -11,10 +11,10 @@ export default function Bubble() {
         <div
             style={{
                 backgroundColor: '#ffffff',
-                padding: '3px',
-                borderRadius: '20px',
+                padding: '1px',
+                borderRadius: '10px',
                 boxShadow: '0 3px 15px rgba(0, 0, 0, 0.1)',
-                border: '2px solid #f0f0f0',
+                border: '1px solid #f0f0f0',
             }}
         >
             <Space>

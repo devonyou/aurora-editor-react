@@ -79,6 +79,8 @@ export default defineConfig({
                 'react-icons',
                 'react-use',
                 'styled-components',
+                'tiptap-extension-auto-joiner',
+                'tiptap-extension-global-drag-handle',
             ],
             output: {
                 globals: {
