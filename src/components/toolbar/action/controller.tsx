@@ -7,10 +7,12 @@ import {
     UnorderedListOutlined,
     VerticalLeftOutlined,
 } from '@ant-design/icons';
-import { Button, Divider, Flex, Popover } from 'antd';
+import { Button, Divider, Flex, Popover, Typography } from 'antd';
 import React, { useState } from 'react';
 import { useAuroraContext } from '../../aurora.provider';
 import { Level } from '@tiptap/extension-heading';
+
+const { Text } = Typography;
 
 const ControllerItem = ({ label, icon, onClick }: { label: string; icon: any; onClick: () => void }) => {
     return (
@@ -22,7 +24,7 @@ const ControllerItem = ({ label, icon, onClick }: { label: string; icon: any; on
             style={{ justifyContent: 'start' }}
             onClick={onClick}
         >
-            {label}
+            <Text style={{ fontSize: '12px', color: 'red' }}>{label}</Text>
         </Button>
     );
 };

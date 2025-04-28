@@ -306,14 +306,14 @@
 
 .auroraEditorContainer :global(.drag-handle)::before {
     content: '';
-    width: 10px;
-    height: 14px;
-    background: radial-gradient(circle, #999 1.5px, transparent 1.5px) top left / 50% 33% no-repeat,
-        radial-gradient(circle, #999 1.5px, transparent 1.5px) top right / 50% 33% no-repeat,
-        radial-gradient(circle, #999 1.5px, transparent 1.5px) center left / 50% 33% no-repeat,
-        radial-gradient(circle, #999 1.5px, transparent 1.5px) center right / 50% 33% no-repeat,
-        radial-gradient(circle, #999 1.5px, transparent 1.5px) bottom left / 50% 33% no-repeat,
-        radial-gradient(circle, #999 1.5px, transparent 1.5px) bottom right / 50% 33% no-repeat;
+    width: 14px;
+    height: 17px;
+    background: radial-gradient(circle, #b9b9b9 1.5px, transparent 1.5px) top left / 50% 33% no-repeat,
+        radial-gradient(circle, #bababa 1.5px, transparent 1.5px) top right / 50% 33% no-repeat,
+        radial-gradient(circle, #bababa 1.5px, transparent 1.5px) center left / 50% 33% no-repeat,
+        radial-gradient(circle, #bababa 1.5px, transparent 1.5px) center right / 50% 33% no-repeat,
+        radial-gradient(circle, #bababa 1.5px, transparent 1.5px) bottom left / 50% 33% no-repeat,
+        radial-gradient(circle, #bababa 1.5px, transparent 1.5px) bottom right / 50% 33% no-repeat;
     background-repeat: no-repeat;
 }
 
@@ -322,7 +322,7 @@
 }
 
 .auroraEditorContainer :global(.drag-handle:hover) {
-    /* background-color: #f0f0f0; */
+    background-color: #f0f0f0;
 }
 
 .auroraEditorContainer :global(.drag-handle svg) {
