@@ -28,7 +28,7 @@ export default function Underline() {
                 type={editor?.isActive('underline') ? 'primary' : 'text'}
                 onClick={toggle}
                 disabled={!editor}
-                size="large"
+                size="middle"
             />
         </AuroraTooltip>
     );

@@ -101,7 +101,7 @@ export default function FontColor() {
     return (
         <AuroraTooltip title="글자색" placement="bottom">
             <Popover content={renderColorPickers()} trigger="click" open={open} onOpenChange={setOpen}>
-                <Button icon={<FontColorsOutlined />} type="text" size="large"></Button>
+                <Button icon={<FontColorsOutlined />} type="text" size="middle"></Button>
             </Popover>
         </AuroraTooltip>
     );

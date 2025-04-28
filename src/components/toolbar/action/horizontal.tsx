@@ -28,7 +28,7 @@ export default function HorizontalRule() {
                 type="text"
                 onClick={insertHorizontalRule}
                 disabled={!editor}
-                size="large"
+                size="middle"
             />
         </AuroraTooltip>
     );

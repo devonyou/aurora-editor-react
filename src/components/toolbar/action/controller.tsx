@@ -24,7 +24,7 @@ const ControllerItem = ({ label, icon, onClick }: { label: string; icon: any; on
             style={{ justifyContent: 'start' }}
             onClick={onClick}
         >
-            <Text style={{ fontSize: '12px', color: 'red' }}>{label}</Text>
+            <Text>{label}</Text>
         </Button>
     );
 };

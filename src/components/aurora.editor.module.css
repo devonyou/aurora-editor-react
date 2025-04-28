@@ -328,7 +328,7 @@
 .auroraEditorContainer :global(.drag-handle svg) {
     width: 18px;
     height: 18px;
-    background-color: red;
+    /* background-color: red; */
 }
 
 .auroraEditorContainer :global(.aurora-drop-position-marker) {

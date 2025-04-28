@@ -28,7 +28,7 @@ export default function bold() {
                 type={editor?.isActive('bold') ? 'primary' : 'text'}
                 onClick={toggle}
                 disabled={!editor}
-                size="large"
+                size="middle"
             />
         </AuroraTooltip>
     );

@@ -91,7 +91,7 @@ export default function Image() {
     return (
         <>
             <AuroraTooltip title="이미지" placement="bottom">
-                <Button icon={<PictureOutlined />} type="text" onClick={toggleImage} disabled={!editor} size="large" />
+                <Button icon={<PictureOutlined />} type="text" onClick={toggleImage} disabled={!editor} size="middle" />
             </AuroraTooltip>
 
             {showImageInput && (

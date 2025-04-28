@@ -28,7 +28,7 @@ export default function Italic() {
                 type={editor?.isActive('italic') ? 'primary' : 'text'}
                 onClick={toggle}
                 disabled={!editor}
-                size="large"
+                size="middle"
             />
         </AuroraTooltip>
     );

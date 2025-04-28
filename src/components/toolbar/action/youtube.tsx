@@ -101,7 +101,7 @@ export default function Youtube() {
     return (
         <>
             <AuroraTooltip title="유튜브" placement="bottom">
-                <Button icon={<YoutubeFilled />} type="text" onClick={toggleYoutube} disabled={!editor} size="large" />
+                <Button icon={<YoutubeFilled />} type="text" onClick={toggleYoutube} disabled={!editor} size="middle" />
             </AuroraTooltip>
 
             {showYoutubeInput && (
