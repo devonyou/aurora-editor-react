@@ -1,6 +1,6 @@
 {
     "name": "aurora-editor-react",
-    "version": "1.5.4",
+    "version": "1.6.1",
     "type": "module",
     "main": "dist/aurora-editor.es.js",
     "module": "dist/aurora-editor.es.js",

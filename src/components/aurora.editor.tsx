@@ -18,16 +18,22 @@ interface AuroraEditorProps {
     placeholder?: string;
     tooltip?: boolean;
     bubble?: boolean;
+    primaryColor?: string;
     onUpdate?: (html: string) => void;
 }
 
 export const AuroraEditor = forwardRef<AuroraEditorHandle, AuroraEditorProps>((props, ref) => {
+    const { primaryColor = '#60A5FA' } = props;
+
     return (
-        <div className={style.auroraEditorContainer}>
+        <div
+            className={style.auroraEditorContainer}
+            style={{ '--aurora-primary-color': primaryColor } as React.CSSProperties}
+        >
             <AntdConfigProvider
                 theme={{
                     token: {
-                        colorPrimary: '#60A5FA',
+                        colorPrimary: primaryColor,
                         fontFamily: 'ACCchildrenheartOTF-Regular',
                     },
                     components: {

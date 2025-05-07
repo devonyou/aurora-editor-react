@@ -20,8 +20,8 @@ const fontColorPresets = [
     '#A78BFA',
     '#34D399',
 ];
-const bgColorPresets = ['#FFF7ED', '#FEF9C3', '#ECFCCB', '#CFFAFE', '#EDE9FE', '#FFE4E6'];
-const bgColoVisiblePresets = ['#FF6F20', '#F2D400', '#27AE60', '#00BFFF', '#9B4DFF', '#FF4B5C'];
+const bgColorPresets = ['#FFFFFF', '#FEF9C3', '#ECFCCB', '#CFFAFE', '#EDE9FE', '#FFE4E6'];
+const bgColoVisiblePresets = ['#FFFFFF', '#F2D400', '#27AE60', '#00BFFF', '#9B4DFF', '#FF4B5C'];
 
 export default function FontColor() {
     const { editor } = useAuroraContext();
@@ -89,9 +89,14 @@ export default function FontColor() {
                         key={color}
                         type={'text'}
                         size="small"
-                        style={{ backgroundColor: bgColoVisiblePresets[i], height: 30, width: 30 }}
                         onClick={() => handleBgColorChange(color)}
                         icon={bgColor === color ? <CheckOutlined style={{ color: '#FFF' }} /> : null}
+                        style={{
+                            backgroundColor: bgColoVisiblePresets[i],
+                            height: 30,
+                            width: 30,
+                            borderColor: i === 0 ? '#b9b9b9' : 'none',
+                        }}
                     />
                 ))}
             </Flex>

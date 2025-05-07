@@ -12,6 +12,7 @@ export default function App() {
                 placeholder="명령어 사용시에는 '/'를 입력해주세요."
                 tooltip={true}
                 bubble={true}
+                primaryColor={'#16b75e'}
             >
                 <AuroraToolbar />
                 <AuroraTextarea />
