@@ -9,4 +9,5 @@ export { default as Horizontal } from './horizontal';
 export { default as FontColor } from './fontcolor';
 export { default as Highlight } from './highlight';
 export { default as Image } from './image';
+export { default as ImageUpload } from './image.upload';
 export { default as Underline } from './underline';

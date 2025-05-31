@@ -13,6 +13,7 @@ export default function App() {
                 tooltip={true}
                 bubble={true}
                 primaryColor={'#16b75e'}
+                onUploadImage={undefined}
             >
                 <AuroraToolbar />
                 <AuroraTextarea />

@@ -20,6 +20,7 @@ interface AuroraEditorProps {
     bubble?: boolean;
     primaryColor?: string;
     onUpdate?: (html: string) => void;
+    onUploadImage?: (file: File) => Promise<string>;
 }
 
 export const AuroraEditor = forwardRef<AuroraEditorHandle, AuroraEditorProps>((props, ref) => {
@@ -46,9 +47,10 @@ export const AuroraEditor = forwardRef<AuroraEditorHandle, AuroraEditorProps>((p
                 <AuroraProvider
                     content={props.initContent}
                     placeholder={props.placeholder}
-                    onUpdate={props.onUpdate}
                     tooltip={props.tooltip}
                     bubble={props.bubble}
+                    onUpdate={props.onUpdate}
+                    onUploadImage={props.onUploadImage}
                 >
                     <InnerAuroraEditor ref={ref} />
                     {props.children}

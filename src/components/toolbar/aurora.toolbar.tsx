@@ -9,12 +9,15 @@ import {
     Link,
     Strike,
     Youtube,
-    Image,
     Controller,
     Underline,
+    ImageUpload,
 } from './action';
+import { useAuroraContext } from '../aurora.provider';
 
 export default function AuroraToolbar({}: AuroraToolbarProps) {
+    const { onUploadImage } = useAuroraContext();
+
     return (
         <div className="aurora-editor-toolbar">
             <Row gutter={[4, 4]} justify="start" align="bottom">
@@ -31,8 +34,9 @@ export default function AuroraToolbar({}: AuroraToolbarProps) {
                         <Link />
                         <Divider type="vertical" style={{ height: '20px' }} />
                         <Horizontal />
-                        <Image />
+                        {/* <Image /> */}
                         <Youtube />
+                        {onUploadImage && <ImageUpload />}
                     </Flex>
                 </Col>
                 {/* <Col xl={12} lg={12} md={12} sm={24} xs={24}>

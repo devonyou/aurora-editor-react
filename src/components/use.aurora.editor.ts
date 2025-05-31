@@ -24,6 +24,7 @@ interface UseAuroraEditorOptions {
     tooltip?: boolean;
     bubble?: boolean;
     onUpdate?: (html: string) => void;
+    onUploadImage?: (file: File) => Promise<string>;
 }
 
 export function useAuroraEditor({
@@ -32,6 +33,7 @@ export function useAuroraEditor({
     tooltip = true,
     bubble = false,
     onUpdate,
+    onUploadImage,
 }: UseAuroraEditorOptions = {}) {
     const [html, setHtml] = useState(content);
 
@@ -170,7 +172,7 @@ export function useAuroraEditor({
         };
     }, [editor]);
 
-    return {
+    const result = {
         editor,
         content: html,
         tooltip,
@@ -189,5 +191,8 @@ export function useAuroraEditor({
         insertContent: (content: string | object) => {
             editor?.chain().focus().insertContent(content).run();
         },
+        ...(onUploadImage ? { onUploadImage: (file: File) => onUploadImage(file) } : undefined),
     };
+
+    return result;
 }

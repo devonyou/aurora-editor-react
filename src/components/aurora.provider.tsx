@@ -8,6 +8,7 @@ interface AuroraContextValue {
     tooltip: boolean;
     bubble: boolean;
     insertContent: (content: string | object) => void;
+    onUploadImage?: (file: File) => Promise<string>;
 }
 
 const AuroraContext = createContext<AuroraContextValue | undefined>(undefined);
@@ -28,15 +29,25 @@ interface AuroraProviderProps {
     tooltip?: boolean;
     bubble?: boolean;
     onUpdate?: (html: string) => void;
+    onUploadImage?: (file: File) => Promise<string>;
 }
 
-export function AuroraProvider({ children, content, placeholder, tooltip, bubble, onUpdate }: AuroraProviderProps) {
+export function AuroraProvider({
+    children,
+    content,
+    placeholder,
+    tooltip,
+    bubble,
+    onUpdate,
+    onUploadImage,
+}: AuroraProviderProps) {
     const auroraValue = useAuroraEditor({
         content,
         placeholder,
         tooltip,
         bubble,
         onUpdate,
+        onUploadImage,
     });
 
     return <AuroraContext.Provider value={auroraValue}>{children}</AuroraContext.Provider>;
