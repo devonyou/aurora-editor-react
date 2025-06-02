@@ -3,6 +3,7 @@ import AuroraTooltip from '../../tooltip/aurora.tooltip';
 import { Button } from 'antd';
 import { PictureOutlined } from '@ant-design/icons';
 import { useAuroraContext } from '../../aurora.provider';
+import { TextSelection } from 'prosemirror-state';
 
 /**
  * 이미지를 서버에 업로드하고, 업로드된 이미지의 URL을 반환합니다.
@@ -45,26 +46,61 @@ export default function ImageUpload() {
         const file = e.target.files?.[0];
         if (!file) return;
 
+        // 이미지 파일 타입 검증
+        const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+        if (!allowedTypes.includes(file.type)) {
+            throw new Error('지원하지 않는 이미지 형식입니다. JPG, PNG, GIF, WEBP 형식만 업로드 가능합니다.');
+        }
+
         try {
             const imageUrl = await onUploadImage?.(file);
-            if (imageUrl) {
-                editor
-                    ?.chain()
-                    .focus()
-                    .insertContent({
-                        type: 'resizableImage',
-                        attrs: {
-                            src: imageUrl,
-                            width: '480px',
-                            height: 'auto',
-                        },
-                    })
-                    .run();
-            }
+            if (imageUrl) insertImage(imageUrl);
         } catch (err) {
-            // 에러 핸들링 (예: 알림 표시)
-            // message.error('이미지 업로드에 실패했습니다.');
+            //
         }
+    };
+
+    const insertImage = (imageUrl: string) => {
+        editor
+            ?.chain()
+            .focus()
+            .command(({ tr, dispatch }) => {
+                const { $from } = tr.selection;
+                const currentNode = $from.node();
+
+                // 현재 노드가 빈 문단이 아니면 (즉, 내용이 있으면) 새 문단 추가
+                if (!(currentNode.type.name === 'paragraph' && currentNode.content.size === 0)) {
+                    const paragraph = editor.schema.nodes.paragraph.create();
+                    tr.insert($from.end(), paragraph); // 현재 노드 끝 다음 위치에 새 문단 추가
+                    tr.setSelection(TextSelection.near(tr.doc.resolve($from.end() + 1))); // 커서 새 문단으로 이동
+                }
+
+                dispatch?.(tr);
+                return true;
+            })
+            .insertContent([
+                {
+                    type: 'resizableImage',
+                    attrs: {
+                        src: imageUrl,
+                        width: 'auto',
+                        height: '250px',
+                    },
+                },
+                { type: 'paragraph' },
+            ])
+            .command(({ tr, dispatch }) => {
+                const pos = tr.selection.to;
+                const paragraph = editor.schema.nodes.paragraph.create();
+                tr.insert(pos, paragraph);
+
+                const selection = TextSelection.near(tr.doc.resolve(pos + 1));
+                tr.setSelection(selection);
+
+                dispatch?.(tr);
+                return true;
+            })
+            .run();
     };
 
     return (

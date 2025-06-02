@@ -43,7 +43,50 @@ export const ResizableImage = Node.create({
     },
 
     renderHTML({ HTMLAttributes }) {
-        return ['img', mergeAttributes(HTMLAttributes, { class: 'aurora-resizable-image' })];
+        return [
+            'div',
+            {
+                class: 'aurora-image-wrapper',
+                contenteditable: 'false',
+                style: 'position: relative; display: inline-block;',
+            },
+            [
+                'img',
+                mergeAttributes(HTMLAttributes, {
+                    class: 'aurora-resizable-image',
+                    style: `width: ${HTMLAttributes.width}; height: ${HTMLAttributes.height};`,
+                }),
+            ],
+            [
+                'button',
+                {
+                    class: 'delete-icon',
+                    'aria-label': '삭제',
+                    contenteditable: false,
+                    tabindex: '-1',
+                    type: 'button',
+                    style: `
+                        position: absolute;
+                        top: 4px;
+                        right: 4px;
+                        background-color: #1890ff;
+                        color: white;
+                        border: none;
+                        border-radius: 4px;
+                        padding: 2px 8px;
+                        font-size: 12px;
+                        font-weight: 600;
+                        cursor: pointer;
+                        pointer-events: none;
+                        transition: opacity 0.2s ease;
+                        user-select: none;
+                        box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+                        opacity: 0;
+                    `,
+                },
+                '삭제',
+            ],
+        ];
     },
 
     addProseMirrorPlugins() {
@@ -217,6 +260,76 @@ export const ResizableImage = Node.create({
                             }
                             return false;
                         },
+                        click: (view, event) => {
+                            const target = event.target as HTMLElement;
+
+                            if (target.classList.contains('delete-icon')) {
+                                event.preventDefault();
+                                event.stopPropagation();
+
+                                // 이미지 wrapper div
+                                const wrapper = target.closest('.aurora-image-wrapper');
+                                if (!wrapper) return false;
+
+                                // 이미지 DOM 요소
+                                const img = wrapper.querySelector('img.aurora-resizable-image');
+                                if (!img) return false;
+
+                                // 이미지가 위치한 프로스미러 문서 위치 찾기
+                                const pos = view.posAtDOM(img, 0);
+                                if (pos === null) return false;
+
+                                const tr = view.state.tr;
+                                // 노드 삭제 (pos 위치의 노드 1개 삭제)
+                                tr.delete(pos, pos + 1);
+
+                                view.dispatch(tr);
+                                return true;
+                            }
+                            return false;
+                        },
+                    },
+
+                    // 이미지 삭제 막기
+                    handleKeyDown: (view, event) => {
+                        const { state } = view;
+                        const { selection } = state;
+                        const { $from, empty } = selection;
+
+                        // 커서가 이미지 앞/뒤에 있고 Backspace/Delete 막기
+                        if (
+                            empty &&
+                            (event.key === 'Backspace' || event.key === 'Delete') &&
+                            (state.doc.nodeAt(selection.$from.pos - 1)?.type.name === 'resizableImage' ||
+                                state.doc.nodeAt(selection.$from.pos)?.type.name === 'resizableImage')
+                        ) {
+                            event.preventDefault();
+                            return true;
+                        }
+
+                        // 선택 영역 내 이미지 있으면 Backspace, Delete, Enter 막기
+                        if (!empty) {
+                            const fromPos = selection.from;
+                            const toPos = selection.to;
+
+                            let hasImageNode = false;
+                            state.doc.nodesBetween(fromPos, toPos, node => {
+                                if (node.type.name === 'resizableImage') {
+                                    hasImageNode = true;
+                                    return false;
+                                }
+                            });
+
+                            if (
+                                hasImageNode &&
+                                (event.key === 'Backspace' || event.key === 'Delete' || event.key === 'Enter')
+                            ) {
+                                event.preventDefault();
+                                return true;
+                            }
+                        }
+
+                        return false;
                     },
                 },
             }),

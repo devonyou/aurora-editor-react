@@ -312,12 +312,12 @@
     content: '';
     width: 14px;
     height: 17px;
-    background: radial-gradient(circle, #b9b9b9 1.5px, transparent 1.5px) top left / 50% 33% no-repeat,
-        radial-gradient(circle, #bababa 1.5px, transparent 1.5px) top right / 50% 33% no-repeat,
-        radial-gradient(circle, #bababa 1.5px, transparent 1.5px) center left / 50% 33% no-repeat,
-        radial-gradient(circle, #bababa 1.5px, transparent 1.5px) center right / 50% 33% no-repeat,
-        radial-gradient(circle, #bababa 1.5px, transparent 1.5px) bottom left / 50% 33% no-repeat,
-        radial-gradient(circle, #bababa 1.5px, transparent 1.5px) bottom right / 50% 33% no-repeat;
+    background: radial-gradient(circle, #1890ff 1.5px, transparent 1.5px) top left / 50% 33% no-repeat,
+        radial-gradient(circle, #1890ff 1.5px, transparent 1.5px) top right / 50% 33% no-repeat,
+        radial-gradient(circle, #1890ff 1.5px, transparent 1.5px) center left / 50% 33% no-repeat,
+        radial-gradient(circle, #1890ff 1.5px, transparent 1.5px) center right / 50% 33% no-repeat,
+        radial-gradient(circle, #1890ff 1.5px, transparent 1.5px) bottom left / 50% 33% no-repeat,
+        radial-gradient(circle, #1890ff 1.5px, transparent 1.5px) bottom right / 50% 33% no-repeat;
     background-repeat: no-repeat;
 }
 
@@ -345,4 +345,38 @@
     width: 100%;
     left: 0;
     box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+}
+
+/* 이미지 wrapper에 포커스가 들어왔을 때 */
+.auroraEditorContainer :global(.aurora-image-wrapper.focused) {
+    position: relative;
+    outline: 3px solid #1677ff;
+}
+
+/* 세로 포커스 라인 - 왼쪽 */
+.auroraEditorContainer :global(.aurora-image-wrapper.focused::before) {
+    content: '';
+    position: absolute;
+    left: 0; /* 이미지 왼쪽 */
+    top: 0;
+    bottom: 0;
+    width: 3px; /* 두께 */
+    background-color: #1677ff; /* 원하는 색상 */
+}
+
+/* 세로 포커스 라인 - 오른쪽 */
+.auroraEditorContainer :global(.aurora-image-wrapper.focused::after) {
+    content: '';
+    position: absolute;
+    right: 0; /* 이미지 오른쪽 */
+    top: 0;
+    bottom: 0;
+    width: 3px; /* 두께 */
+    background-color: #1677ff;
+}
+
+.auroraEditorContainer :global(.aurora-image-wrapper:hover .delete-icon) {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    cursor: pointer !important;
 }
