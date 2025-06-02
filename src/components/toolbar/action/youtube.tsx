@@ -1,97 +1,71 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState } from 'react';
 import AuroraTooltip from '../../tooltip/aurora.tooltip';
-import { Button, Input } from 'antd';
+import { Button, Input, Modal } from 'antd';
 import { YoutubeFilled } from '@ant-design/icons';
 import { useAuroraContext } from '../../aurora.provider';
+import { TextSelection } from 'prosemirror-state';
 
 export default function Youtube() {
     const { editor } = useAuroraContext();
-    const [tooltipOpen, setTooltipOpen] = useState<Record<string, boolean>>({});
-    const [showYoutubeInput, setShowYoutubeInput] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const [youtubeUrl, setYoutubeUrl] = useState('');
-    const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
-    const youtubeInputRef = useRef<HTMLDivElement>(null);
 
-    useEffect(() => {
-        const handleClickOutside = (event: MouseEvent) => {
-            if (youtubeInputRef.current && !youtubeInputRef.current.contains(event.target as Node)) {
-                setShowYoutubeInput(false);
-            }
-        };
-
-        if (showYoutubeInput) {
-            document.addEventListener('mousedown', handleClickOutside);
-        }
-
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
-    }, [showYoutubeInput]);
-
-    const handleButtonClick = (buttonId: string) => {
-        setTooltipOpen({
-            ...tooltipOpen,
-            [buttonId]: false,
-        });
-    };
-
-    const getSelectionPosition = () => {
-        if (!editor) return { top: 0, left: 0 };
-
-        const { view } = editor;
-        const { from } = view.state.selection;
-
-        const start = view.coordsAtPos(from);
-
-        return {
-            top: start.top - 40,
-            left: start.left,
-        };
-    };
-
-    const toggleYoutube = () => {
+    const handleButtonClick = () => {
         if (!editor) return;
-
-        const position = getSelectionPosition();
-        setPopupPosition(position);
-        setShowYoutubeInput(true);
         setYoutubeUrl('');
-
-        handleButtonClick('youtube');
+        setIsModalOpen(true);
     };
 
-    const handleYoutubeSubmit = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === 'Enter' && youtubeUrl) {
-            let youtubeId = youtubeUrl;
+    const handleOk = () => {
+        if (youtubeUrl) {
+            editor
+                ?.chain()
+                .focus()
+                .command(({ tr, dispatch }) => {
+                    const { $from } = tr.selection;
+                    const currentNode = $from.node();
 
-            const youtubeRegex = /^(https?:\/\/)?(www\.)?(youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
-            const match = youtubeUrl.match(youtubeRegex);
+                    // 현재 노드가 빈 문단이 아니면 (즉, 내용이 있으면) 새 문단 추가
+                    if (!(currentNode.type.name === 'paragraph' && currentNode.content.size === 0)) {
+                        const paragraph = editor.schema.nodes.paragraph.create();
+                        tr.insert($from.end(), paragraph); // 현재 노드 끝 다음 위치에 새 문단 추가
+                        tr.setSelection(TextSelection.near(tr.doc.resolve($from.end() + 1))); // 커서 새 문단으로 이동
+                    }
 
-            if (match && match[4]) {
-                youtubeId = match[4];
-            }
+                    dispatch?.(tr);
+                    return true;
+                })
+                .insertContent([
+                    {
+                        type: 'youtube',
+                        attrs: {
+                            src: youtubeUrl,
+                            width: 480,
+                            height: 270,
+                        },
+                    },
+                    { type: 'paragraph' }, // 하단 빈 줄
+                ])
+                .command(({ tr, dispatch }) => {
+                    const pos = tr.selection.to;
+                    const paragraph = editor.schema.nodes.paragraph.create();
+                    tr.insert(pos, paragraph);
 
-            // if (youtubeId && youtubeId.length === 11) {
-            //     editor?.commands.setYoutubeVideo({
-            //         src: youtubeId,
-            //         width: 640,
-            //         height: 480,
-            //     });
-            //     setShowYoutubeInput(false);
-            //     setYoutubeUrl('');
-            // }
+                    const selection = TextSelection.near(tr.doc.resolve(pos + 1));
+                    tr.setSelection(selection);
 
-            editor?.commands.setYoutubeVideo({
-                src: youtubeUrl,
-                width: 480,
-                height: 270,
-            });
-            setShowYoutubeInput(false);
-            setYoutubeUrl('');
-        } else if (e.key === 'Escape') {
-            setShowYoutubeInput(false);
-            setYoutubeUrl('');
+                    dispatch?.(tr);
+                    return true;
+                })
+                .run();
         }
+        setIsModalOpen(false);
+        setYoutubeUrl('');
+    };
+
+    const handleCancel = () => {
+        setIsModalOpen(false);
+        setYoutubeUrl('');
     };
 
     const handleYoutubeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -101,32 +75,30 @@ export default function Youtube() {
     return (
         <>
             <AuroraTooltip title="유튜브" placement="bottom">
-                <Button icon={<YoutubeFilled />} type="text" onClick={toggleYoutube} disabled={!editor} size="middle" />
+                <Button
+                    icon={<YoutubeFilled />}
+                    type="text"
+                    onClick={handleButtonClick}
+                    disabled={!editor}
+                    size="middle"
+                />
             </AuroraTooltip>
-
-            {showYoutubeInput && (
-                <div
-                    ref={youtubeInputRef}
-                    style={{
-                        position: 'fixed',
-                        top: `${popupPosition.top}px`,
-                        left: `${popupPosition.left}px`,
-                        zIndex: 1000,
-                        width: '350px',
-                        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)',
-                        borderRadius: '4px',
-                        backgroundColor: 'white',
-                    }}
-                >
-                    <Input
-                        placeholder="예: https://www.youtube.com/watch?v=VIDEO_ID"
-                        value={youtubeUrl}
-                        onChange={handleYoutubeChange}
-                        onKeyDown={handleYoutubeSubmit}
-                        autoFocus
-                    />
-                </div>
-            )}
+            <Modal
+                title="유튜브 링크 입력"
+                open={isModalOpen}
+                onOk={handleOk}
+                onCancel={handleCancel}
+                okText="확인"
+                cancelText="취소"
+            >
+                <Input
+                    placeholder="예: https://www.youtube.com/watch?v=VIDEO_ID"
+                    value={youtubeUrl}
+                    onChange={handleYoutubeChange}
+                    onPressEnter={handleOk}
+                    autoFocus
+                />
+            </Modal>
         </>
     );
 }
