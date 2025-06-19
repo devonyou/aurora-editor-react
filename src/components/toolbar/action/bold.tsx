@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { Button } from 'antd';
 import { BoldOutlined } from '@ant-design/icons';
-import { useAuroraContext } from '../../aurora.provider';
-import AuroraTooltip from '../../tooltip/aurora.tooltip';
+import { useAuroraEditor } from '@/components/aurora';
+import { AuroraTooltip } from '@/components/tooltip';
 
 export default function bold() {
-    const { editor } = useAuroraContext();
+    const { editor } = useAuroraEditor();
     const [tooltipOpen, setTooltipOpen] = useState<Record<string, boolean>>({});
 
     const handleButtonClick = (buttonId: string) => {

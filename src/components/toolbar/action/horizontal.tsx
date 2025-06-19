@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import AuroraTooltip from '../../tooltip/aurora.tooltip';
+import { AuroraTooltip } from '@/components/tooltip';
 import { Button } from 'antd';
 import { LineOutlined } from '@ant-design/icons';
-import { useAuroraContext } from '../../aurora.provider';
+import { useAuroraEditor } from '@/components/aurora';
 
 export default function HorizontalRule() {
-    const { editor } = useAuroraContext();
+    const { editor } = useAuroraEditor();
     const [tooltipOpen, setTooltipOpen] = useState<Record<string, boolean>>({});
 
     const handleButtonClick = (buttonId: string) => {

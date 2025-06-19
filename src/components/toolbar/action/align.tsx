@@ -1,14 +1,14 @@
 import { useState } from 'react';
-import AuroraTooltip from '../../tooltip/aurora.tooltip';
+import { AuroraTooltip } from '@/components/tooltip';
 import { Button, Dropdown, MenuProps, Space } from 'antd';
 import { AlignCenterOutlined, AlignLeftOutlined, AlignRightOutlined } from '@ant-design/icons';
 import { Typography } from 'antd';
-import { useAuroraContext } from '../../aurora.provider';
+import { useAuroraEditor } from '@/components/aurora';
 
 const { Text } = Typography;
 
 export default function Align() {
-    const { editor } = useAuroraContext();
+    const { editor } = useAuroraEditor();
     const [tooltipOpen, setTooltipOpen] = useState<Record<string, boolean>>({});
 
     const handleButtonClick = (buttonId: string) => {

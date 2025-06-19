@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useState } from 'react';
-import AuroraTooltip from '../../tooltip/aurora.tooltip';
+import { AuroraTooltip } from '@/components/tooltip';
 import { Button, Flex, Popover, Typography } from 'antd';
 import { CheckOutlined, FontColorsOutlined } from '@ant-design/icons';
-import { useAuroraContext } from '../../aurora.provider';
+import { useAuroraEditor } from '@/components/aurora';
 
 const { Text } = Typography;
 
@@ -24,7 +24,7 @@ const bgColorPresets = ['#FFFFFF', '#FEF9C3', '#ECFCCB', '#CFFAFE', '#EDE9FE', '
 const bgColoVisiblePresets = ['#FFFFFF', '#F2D400', '#27AE60', '#00BFFF', '#9B4DFF', '#FF4B5C'];
 
 export default function FontColor() {
-    const { editor } = useAuroraContext();
+    const { editor } = useAuroraEditor();
     // const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
     const [open, setOpen] = useState(false);
     const [fontColor, setFontColor] = useState('#14171a');

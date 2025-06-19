@@ -5,7 +5,6 @@ export default YoutubeExtension.extend({
     name: 'youtube',
 
     addAttributes() {
-        console.log(this.parent, this.options);
         return {
             ...this.parent?.(),
             ...this.options,

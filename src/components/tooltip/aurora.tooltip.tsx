@@ -1,7 +1,7 @@
 import { Tooltip as AntdTooltip, TooltipProps } from 'antd';
 import React, { JSX, ReactNode, useState } from 'react';
 import { Typography } from 'antd';
-import { useAuroraContext } from '../aurora.provider';
+import { useAuroraEditor } from '@/components/aurora';
 
 const { Text } = Typography;
 
@@ -12,7 +12,7 @@ interface OnuTooltipProps extends Omit<TooltipProps, 'children'> {
 
 export default function AuroraTooltip({ id = 'default', children, ...restProps }: OnuTooltipProps) {
     const [tooltipOpen, setTooltipOpen] = useState<Record<string, boolean>>({});
-    const { tooltip } = useAuroraContext();
+    const { tooltip } = useAuroraEditor();
 
     if (!tooltip) return <>{children}</>;
 

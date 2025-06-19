@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import AuroraTooltip from '../../tooltip/aurora.tooltip';
+import { AuroraTooltip } from '@/components/tooltip';
 import { Button, Input, Modal } from 'antd';
 import { YoutubeFilled } from '@ant-design/icons';
-import { useAuroraContext } from '../../aurora.provider';
 import { TextSelection } from 'prosemirror-state';
+import { useAuroraEditor } from '@/components/aurora';
 
 export default function Youtube() {
-    const { editor } = useAuroraContext();
+    const { editor } = useAuroraEditor();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [youtubeUrl, setYoutubeUrl] = useState('');
 

@@ -1,4 +1,3 @@
-// vite.config.ts
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import dts from 'vite-plugin-dts';
@@ -23,6 +22,12 @@ export default defineConfig({
         modules: {
             scopeBehaviour: 'local',
             localsConvention: 'camelCase',
+        },
+    },
+    resolve: {
+        alias: {
+            '@': path.resolve(__dirname, 'src'),
+            src: path.resolve(__dirname, 'src'),
         },
     },
     build: {

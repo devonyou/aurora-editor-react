@@ -1,6 +1,6 @@
 {
     "name": "aurora-editor-react",
-    "version": "1.9.1",
+    "version": "2.0.0",
     "type": "module",
     "main": "dist/aurora-editor.es.js",
     "module": "dist/aurora-editor.es.js",
@@ -28,6 +28,9 @@
     },
     "dependencies": {
         "@ant-design/icons": "^6.0.0",
+        "@emotion/styled": "^11.14.0",
+        "@mui/material": "^7.1.1",
+        "@mui/styled-engine": "^7.1.1",
         "@tiptap/extension-blockquote": "^2.11.7",
         "@tiptap/extension-code-block-lowlight": "^2.11.7",
         "@tiptap/extension-color": "^2.11.7",

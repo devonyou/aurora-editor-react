@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import AuroraTooltip from '../../tooltip/aurora.tooltip';
+import { AuroraTooltip } from '@/components/tooltip';
 import { ColorPicker } from 'antd';
 import { useDebounce } from 'react-use';
-import { useAuroraContext } from '../../aurora.provider';
+import { useAuroraEditor } from '@/components/aurora';
 import { Editor } from '@tiptap/react';
 
 const presetColors = [
@@ -25,7 +25,7 @@ const presetColors = [
 ];
 
 export default function Highlight() {
-    const { editor } = useAuroraContext();
+    const { editor } = useAuroraEditor();
     const [tooltipOpen, setTooltipOpen] = useState<Record<string, boolean>>({});
     const [color, setColor] = useState<string>('#ffffff');
 

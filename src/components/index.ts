@@ -1,4 +1,3 @@
-export * from './toolbar';
+export * from './aurora';
 export * from './textarea';
-export * from './aurora.provider';
-export * from './aurora.editor';
+export * from './toolbar';

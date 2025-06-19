@@ -1,31 +1,27 @@
-import { useEffect, useState, useRef } from 'react';
-import { useAuroraContext } from '../aurora.provider';
+import { useRef } from 'react';
 import { EditorContent } from '@tiptap/react';
-import { Flex } from 'antd';
+import { useAuroraEditor } from '@/components/aurora';
+import Bubble from '@/components/bubble/bubble';
+import { useBubbleContext } from '@/components/bubble';
 
 export default function AuroraTextarea() {
-    const { editor, bubble } = useAuroraContext();
-    const [isEditable, setIsEditable] = useState(true);
+    const { editor } = useAuroraEditor();
     const editorRef = useRef<HTMLDivElement>(null);
-
-    useEffect(() => {
-        if (editor) {
-            editor.setEditable(isEditable);
-        }
-    }, [isEditable, editor]);
+    const bubbleRef = useBubbleContext();
 
     return (
-        <Flex className="aurora-editor-textarea">
+        <div className="aurora-editor-textarea">
+            <Bubble ref={bubbleRef} />
             <EditorContent
+                ref={editorRef}
                 editor={editor}
                 spellCheck={false}
-                ref={editorRef}
                 style={{
                     width: 'inherit',
                     height: 'inherit',
                     minHeight: 'inherit',
                 }}
             />
-        </Flex>
+        </div>
     );
 }

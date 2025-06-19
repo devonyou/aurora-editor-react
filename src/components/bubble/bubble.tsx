@@ -1,46 +1,37 @@
 import { Flex, Space } from 'antd';
 import { Align, Bold, FontColor, Italic, Link, Strike, Underline } from '../toolbar/action';
-import { useAuroraContext } from '../aurora.provider';
 import { Controller } from '../toolbar/action';
-import { forwardRef, useImperativeHandle } from 'react';
-import { BubbleMenu, Editor, isTextSelection } from '@tiptap/react';
+import { forwardRef, useEffect, useImperativeHandle, useState } from 'react';
+import { BubbleMenu } from '@tiptap/react';
+import { useAuroraEditor } from '@/components/aurora';
+import ControlledBubbleMenu from './controlled.bubble';
 
 export type BubbleHandle = {
-    editor: Editor | null;
+    hide: () => void;
 };
 
 interface BubbleProps {}
 
 const Bubble = forwardRef<BubbleHandle, BubbleProps>((props, ref) => {
-    const { editor, bubble } = useAuroraContext();
+    const { editor, bubble } = useAuroraEditor();
+    const [visible, setVisible] = useState(true);
 
     useImperativeHandle(
         ref,
         () => ({
-            editor,
+            hide: () => setVisible(false),
         }),
         [editor]
     );
 
-    if (!editor) return null;
-    if (!bubble) return null;
+    if (!editor || !bubble) return null;
 
     return (
-        <BubbleMenu
-            editor={editor}
-            tippyOptions={{ duration: 100, placement: 'bottom-start', sticky: true }}
-            shouldShow={({ editor, state, from, to }) => {
-                if (from === to) return false;
-
-                const { selection } = state;
-                const isText = isTextSelection(selection);
-                return isText;
-            }}
-        >
+        <ControlledBubbleMenu editor={editor} open={!editor.view.state.selection.empty}>
             <Flex
                 style={{
                     backgroundColor: '#ffffff',
-                    padding: '1px',
+                    padding: '5px',
                     borderRadius: '10px',
                     boxShadow: '0 3px 15px rgba(0, 0, 0, 0.1)',
                     border: '1px solid #f0f0f0',
@@ -57,7 +48,7 @@ const Bubble = forwardRef<BubbleHandle, BubbleProps>((props, ref) => {
                     <Link />
                 </Space>
             </Flex>
-        </BubbleMenu>
+        </ControlledBubbleMenu>
     );
 });
 

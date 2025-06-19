@@ -9,7 +9,7 @@ import {
 } from '@ant-design/icons';
 import { Button, Divider, Flex, Popover, Typography } from 'antd';
 import React, { useState } from 'react';
-import { useAuroraContext } from '../../aurora.provider';
+import { useAuroraEditor } from '@/components/aurora';
 import { Level } from '@tiptap/extension-heading';
 
 const { Text } = Typography;
@@ -30,7 +30,7 @@ const ControllerItem = ({ label, icon, onClick }: { label: string; icon: any; on
 };
 
 export default function Controller() {
-    const { editor } = useAuroraContext();
+    const { editor } = useAuroraEditor();
     const [open, setOpen] = useState(false);
 
     const toggleHeading = (level: Level | null) => {

@@ -1,19 +1,20 @@
 import { useRef } from 'react';
-import { AuroraToolbar, AuroraTextarea, AuroraEditor, AuroraEditorHandle } from './components';
+import { AuroraTextarea, AuroraToolbar, AuroraEditor, AuroraEditorRef } from '.';
 
 export default function App() {
-    const editorRef = useRef<AuroraEditorHandle>(null);
+    const editorRef = useRef<AuroraEditorRef>(null);
 
     return (
         <>
             <AuroraEditor
                 ref={editorRef}
-                initContent={''}
-                placeholder="명령어 사용시에는 '/'를 입력해주세요."
-                tooltip={true}
-                bubble={true}
-                primaryColor={'#16b75e'}
-                onUploadImage={undefined}
+                content={''}
+                config={{
+                    placeholder: '명령어 사용시에는 "/"를 입력해주세요.',
+                    tooltip: true,
+                    bubble: true,
+                    color: '#16b75e',
+                }}
             >
                 <AuroraToolbar />
                 <AuroraTextarea />

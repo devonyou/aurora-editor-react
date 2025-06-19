@@ -1,48 +1,41 @@
-import { Col, Divider, Flex, Row } from 'antd';
-import { AuroraToolbarProps } from '.';
-import {
-    Align,
-    Bold,
-    FontColor,
-    Horizontal,
-    Italic,
-    Link,
-    Strike,
-    Youtube,
-    Controller,
-    Underline,
-    ImageUpload,
-} from './action';
-import { useAuroraContext } from '../aurora.provider';
+import { Divider, Flex } from 'antd';
+import { Align, Bold, FontColor, Horizontal, Italic, Link, Strike, Controller, Underline } from './action';
+
+export interface AuroraToolbarProps extends AuroraToolbarItemProps {}
+
+export interface AuroraToolbarItemProps {
+    bold?: boolean;
+    italic?: boolean;
+    strike?: boolean;
+    heading?: boolean;
+    align?: boolean;
+    order?: boolean;
+    unorder?: boolean;
+    check?: boolean;
+    link?: boolean;
+    code?: boolean;
+    image?: boolean;
+    table?: boolean;
+    color?: boolean;
+    highlight?: boolean;
+}
 
 export default function AuroraToolbar({}: AuroraToolbarProps) {
-    const { onUploadImage } = useAuroraContext();
-
     return (
         <div className="aurora-editor-toolbar">
-            <Row gutter={[4, 4]} justify="start" align="bottom">
-                <Col xl={24} lg={24} md={24} sm={24} xs={24}>
-                    <Flex align="center" wrap="wrap" gap={4}>
-                        <Controller />
-                        <Bold />
-                        <Italic />
-                        <Underline />
-                        <Strike />
-                        <Divider type="vertical" style={{ height: '20px' }} />
-                        <FontColor />
-                        <Align />
-                        <Link />
-                        <Divider type="vertical" style={{ height: '20px' }} />
-                        <Horizontal />
-                        {/* <Image /> */}
-                        {/* <Youtube /> */}
-                        {onUploadImage && <ImageUpload />}
-                    </Flex>
-                </Col>
-                {/* <Col xl={12} lg={12} md={12} sm={24} xs={24}>
-                    <Flex align="center" wrap="wrap" gap={4}></Flex>
-                </Col> */}
-            </Row>
+            <Flex align="center" wrap="wrap" gap={5}>
+                <Controller />
+                <Bold />
+                <Italic />
+                <Underline />
+                <Strike />
+                <Divider type="vertical" style={{ height: '20px' }} />
+                <FontColor />
+                <Align />
+                <Link />
+                <Divider type="vertical" style={{ height: '20px' }} />
+                <Horizontal />
+            </Flex>
         </div>
     );
 }

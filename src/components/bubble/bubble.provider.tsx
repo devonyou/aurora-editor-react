@@ -9,9 +9,9 @@ export function BubbleProvider({ children }: { children: React.ReactNode }) {
 }
 
 export function useBubbleContext() {
-    const ref = useContext(BubbleRefContext);
-    if (!ref) {
+    const ctx = useContext(BubbleRefContext);
+    if (!ctx) {
         throw new Error('useBubbleRef must be used within a BubbleProvider');
     }
-    return ref;
+    return ctx;
 }

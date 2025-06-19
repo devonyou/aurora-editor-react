@@ -1,34 +1,38 @@
-import { useState, useRef } from 'react';
-import AuroraTooltip from '../../tooltip/aurora.tooltip';
+import { useState, useRef, useEffect } from 'react';
+import { AuroraTooltip } from '@/components/tooltip';
 import { Button, Input, InputRef, Modal } from 'antd';
 import { LinkOutlined } from '@ant-design/icons';
-import { useAuroraContext } from '../../aurora.provider';
-import { useBubbleContext } from '../../bubble/bubble.provider';
+import { useAuroraEditor } from '@/components/aurora';
+import { useBubbleContext } from '@/components/bubble';
 
 export default function Link() {
-    const { editor } = useAuroraContext();
-    // const bubbleRef = useBubbleContext();
+    const { editor, bubble } = useAuroraEditor();
+    const bubbleRef = useBubbleContext();
     const linkInputRef = useRef<InputRef>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [linkUrl, setLinkUrl] = useState('');
 
     const handleButtonClick = () => {
-        // console.log(bubbleRef.current);
-        if (!editor) return;
-
-        if (editor.isActive('link')) {
+        if (editor?.isActive('link')) {
             editor.chain().focus().unsetLink().run();
             return;
         }
 
+        bubbleRef.current?.hide();
         setLinkUrl('');
         setIsModalOpen(true);
     };
 
     const handleOk = () => {
         if (linkUrl) {
-            editor?.chain().focus().setLink({ href: linkUrl }).run();
+            let url = linkUrl;
+            if (!linkUrl.startsWith('http://') && !linkUrl.startsWith('https://')) {
+                url = `https://${linkUrl}`;
+            }
+
+            editor?.chain().focus().setLink({ href: url }).run();
         }
+
         setIsModalOpen(false);
         setLinkUrl('');
     };
