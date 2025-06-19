@@ -11,16 +11,6 @@ interface AuroraContextValue {
     onUploadImage?: (file: File) => Promise<string>;
 }
 
-const AuroraContext = createContext<AuroraContextValue | undefined>(undefined);
-
-export function useAuroraContext() {
-    const context = useContext(AuroraContext);
-    if (context === undefined) {
-        throw new Error('useAuroraContext must be used within an AuroraProvider');
-    }
-    return context;
-}
-
 interface AuroraProviderProps {
     children: ReactNode;
     content?: string;
@@ -31,6 +21,8 @@ interface AuroraProviderProps {
     onUpdate?: (html: string) => void;
     onUploadImage?: (file: File) => Promise<string>;
 }
+
+const AuroraContext = createContext<AuroraContextValue | undefined>(undefined);
 
 export function AuroraProvider({
     children,
@@ -51,4 +43,12 @@ export function AuroraProvider({
     });
 
     return <AuroraContext.Provider value={auroraValue}>{children}</AuroraContext.Provider>;
+}
+
+export function useAuroraContext() {
+    const context = useContext(AuroraContext);
+    if (context === undefined) {
+        throw new Error('useAuroraContext must be used within an AuroraProvider');
+    }
+    return context;
 }

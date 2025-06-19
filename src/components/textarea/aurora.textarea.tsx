@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { useAuroraContext } from '../aurora.provider';
 import { EditorContent } from '@tiptap/react';
-import BubbleContainer from '../bubble/bubble.container';
+import { Flex } from 'antd';
 
 export default function AuroraTextarea() {
     const { editor, bubble } = useAuroraContext();
@@ -15,8 +15,7 @@ export default function AuroraTextarea() {
     }, [isEditable, editor]);
 
     return (
-        <div className="aurora-editor-textarea">
-            <BubbleContainer editor={editor} bubble={bubble} />
+        <Flex className="aurora-editor-textarea">
             <EditorContent
                 editor={editor}
                 spellCheck={false}
@@ -27,6 +26,6 @@ export default function AuroraTextarea() {
                     minHeight: 'inherit',
                 }}
             />
-        </div>
+        </Flex>
     );
 }

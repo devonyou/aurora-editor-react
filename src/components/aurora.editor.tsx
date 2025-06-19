@@ -2,6 +2,7 @@ import React, { forwardRef, useImperativeHandle } from 'react';
 import { AuroraProvider, useAuroraContext } from './aurora.provider';
 import { ConfigProvider as AntdConfigProvider } from 'antd';
 import style from './aurora.editor.module.css';
+import Bubble from './bubble/bubble';
 
 export interface AuroraEditorHandle {
     focus: () => void;
@@ -44,6 +45,7 @@ export const AuroraEditor = forwardRef<AuroraEditorHandle, AuroraEditorProps>((p
                     },
                 }}
             >
+                {/* <BubbleProvider> */}
                 <AuroraProvider
                     content={props.initContent}
                     placeholder={props.placeholder}
@@ -53,8 +55,10 @@ export const AuroraEditor = forwardRef<AuroraEditorHandle, AuroraEditorProps>((p
                     onUploadImage={props.onUploadImage}
                 >
                     <InnerAuroraEditor ref={ref} />
+                    <Bubble />
                     {props.children}
                 </AuroraProvider>
+                {/* </BubbleProvider> */}
             </AntdConfigProvider>
         </div>
     );

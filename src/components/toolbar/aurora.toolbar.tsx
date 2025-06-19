@@ -35,7 +35,7 @@ export default function AuroraToolbar({}: AuroraToolbarProps) {
                         <Divider type="vertical" style={{ height: '20px' }} />
                         <Horizontal />
                         {/* <Image /> */}
-                        <Youtube />
+                        {/* <Youtube /> */}
                         {onUploadImage && <ImageUpload />}
                     </Flex>
                 </Col>

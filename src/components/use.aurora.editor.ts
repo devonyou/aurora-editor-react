@@ -14,7 +14,7 @@ import Highlight from '@tiptap/extension-highlight';
 import Dropcursor from '@tiptap/extension-dropcursor';
 import { CodeBlock } from './extension/code.block';
 import { Indent } from './extension/indent';
-import { ResizableImage } from './extension/resizable.image';
+// import { ResizableImage } from './extension/resizable.image';
 import AutoJoiner from 'tiptap-extension-auto-joiner';
 import DragHandle from 'tiptap-extension-global-drag-handle';
 
@@ -80,11 +80,11 @@ export function useAuroraEditor({
                 autoplay: false,
                 HTMLAttributes: { class: 'aurora-youtube' },
             }),
-            ResizableImage.configure({
-                inline: false,
-                allowBase64: true,
-                HTMLAttributes: { class: 'aurora-resizable-image', width: '480px', height: 'auto' },
-            }),
+            // ResizableImage.configure({
+            //     inline: false,
+            //     allowBase64: true,
+            //     HTMLAttributes: { class: 'aurora-resizable-image', width: '480px', height: 'auto' },
+            // }),
             Underline.configure({ HTMLAttributes: { class: 'aurora-underline' } }),
             AutoJoiner.configure({}),
             DragHandle.configure({
