@@ -9,13 +9,14 @@ export interface UseTiptapProps {
         placeholder?: string;
         tooltip?: boolean;
         bubble?: boolean;
+        limit?: number;
     };
     onUpdate?: (html: string) => void;
 }
 
 export function useTiptap(props: UseTiptapProps): AuroraEditorContextValue {
     const { content = '', config = {}, onUpdate } = props;
-    const { placeholder = '', tooltip = true, bubble = true } = config;
+    const { placeholder = '', tooltip = true, bubble = true, limit = Infinity } = config;
 
     const [html, setHtml] = useState(content);
 
@@ -28,7 +29,7 @@ export function useTiptap(props: UseTiptapProps): AuroraEditorContextValue {
     );
 
     const editor = useEditor({
-        extensions: getExtensions(placeholder),
+        extensions: getExtensions({ placeholder, limit }),
         content,
         autofocus: true,
         editable: true,

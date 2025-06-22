@@ -55,18 +55,23 @@ export default defineConfig({
             external: [
                 'react',
                 'react-dom',
+                'react-icons',
+                'react-use',
                 'antd',
                 '@ant-design/icons',
+                '@tiptap/core',
+                '@tiptap/pm',
                 '@tiptap/react',
+                '@tiptap/starter-kit',
                 '@tiptap/extension-blockquote',
+                '@tiptap/extension-character-count',
                 '@tiptap/extension-code-block-lowlight',
                 '@tiptap/extension-color',
                 '@tiptap/extension-document',
                 '@tiptap/extension-dropcursor',
+                '@tiptap/extension-focus',
                 '@tiptap/extension-heading',
                 '@tiptap/extension-highlight',
-                '@tiptap/extension-horizontal-rule',
-                '@tiptap/extension-image',
                 '@tiptap/extension-link',
                 '@tiptap/extension-paragraph',
                 '@tiptap/extension-placeholder',
@@ -77,15 +82,8 @@ export default defineConfig({
                 '@tiptap/extension-text-style',
                 '@tiptap/extension-underline',
                 '@tiptap/extension-youtube',
-                '@tiptap/pm',
-                '@tiptap/starter-kit',
                 'highlight.js',
                 'lowlight',
-                'react-icons',
-                'react-use',
-                'styled-components',
-                'tiptap-extension-auto-joiner',
-                'tiptap-extension-global-drag-handle',
             ],
             output: {
                 globals: {
@@ -99,6 +97,8 @@ export default defineConfig({
                     if (id.includes('node_modules')) {
                         if (id.includes('@tiptap')) {
                             return 'tiptap';
+                        } else if (id.includes('prosemirror')) {
+                            return 'prosemirror';
                         } else if (id.includes('antd') || id.includes('@ant-design')) {
                             return 'antd';
                         } else if (id.includes('highlight.js') || id.includes('lowlight')) {
@@ -117,5 +117,6 @@ export default defineConfig({
     },
     optimizeDeps: {
         include: ['react', 'react-dom'],
+        exclude: ['@tiptap/core', 'prosemirror-state', 'prosemirror-view', 'prosemirror-model'],
     },
 });

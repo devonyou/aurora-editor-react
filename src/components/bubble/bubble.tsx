@@ -1,28 +1,16 @@
 import { Flex, Space } from 'antd';
 import { Align, Bold, FontColor, Italic, Link, Strike, Underline } from '../toolbar/action';
 import { Controller } from '../toolbar/action';
-import { forwardRef, useEffect, useImperativeHandle, useState } from 'react';
-import { BubbleMenu } from '@tiptap/react';
+import { forwardRef, useImperativeHandle, useState } from 'react';
 import { useAuroraEditor } from '@/components/aurora';
 import ControlledBubbleMenu from './controlled.bubble';
 
-export type BubbleHandle = {
-    hide: () => void;
-};
+export type BubbleHandle = {};
 
 interface BubbleProps {}
 
 const Bubble = forwardRef<BubbleHandle, BubbleProps>((props, ref) => {
     const { editor, bubble } = useAuroraEditor();
-    const [visible, setVisible] = useState(true);
-
-    useImperativeHandle(
-        ref,
-        () => ({
-            hide: () => setVisible(false),
-        }),
-        [editor]
-    );
 
     if (!editor || !bubble) return null;
 

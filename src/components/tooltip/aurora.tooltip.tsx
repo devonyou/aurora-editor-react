@@ -40,7 +40,6 @@ export default function AuroraTooltip({ id = 'default', children, ...restProps }
         <AntdTooltip
             open={tooltipOpen[id]}
             onOpenChange={open => setTooltipOpen({ ...tooltipOpen, [id]: open })}
-            destroyTooltipOnHide
             {...restProps}
             style={{ fontSize: '0.5rem' }}
         >

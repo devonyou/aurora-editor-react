@@ -1,13 +1,11 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import { AuroraTooltip } from '@/components/tooltip';
 import { Button, Input, InputRef, Modal } from 'antd';
 import { LinkOutlined } from '@ant-design/icons';
 import { useAuroraEditor } from '@/components/aurora';
-import { useBubbleContext } from '@/components/bubble';
 
 export default function Link() {
-    const { editor, bubble } = useAuroraEditor();
-    const bubbleRef = useBubbleContext();
+    const { editor } = useAuroraEditor();
     const linkInputRef = useRef<InputRef>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [linkUrl, setLinkUrl] = useState('');
@@ -18,7 +16,6 @@ export default function Link() {
             return;
         }
 
-        bubbleRef.current?.hide();
         setLinkUrl('');
         setIsModalOpen(true);
     };
