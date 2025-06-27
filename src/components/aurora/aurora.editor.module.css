@@ -34,4 +34,6 @@
     color: #adb5bd;
     pointer-events: none;
     height: 0;
+    font-size: 0.9rem;
+    line-height: 1.5;
 }

@@ -46,14 +46,16 @@ const StyledClipTitleWrapper = styled(Flex)`
     bottom: 0;
     left: 0;
     right: 0;
-    background-color: rgba(255, 255, 255, 0.9);
+    // background-color: rgba(255, 255, 255, 0.9);
+    background-color: rgba(0, 0, 0, 0.9);
     border-bottom-left-radius: 0.25rem;
     border-bottom-right-radius: 0.25rem;
     padding: 5px 10px;
 `;
 
 const StyledClipTitle = styled(Typography.Text)`
-    font-size: 0.7rem;
+    font-size: 0.8rem;
+    color: #fff;
 `;
 
 const ClipRenderer = (props: NodeViewProps) => {

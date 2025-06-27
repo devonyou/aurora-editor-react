@@ -20,7 +20,7 @@ export default function App() {
                 clipId: uuid,
                 clipUrl: imageUrl,
                 clipTime: '00:00:00',
-                clipTitle: 'title',
+                clipTitle: 'Placeholder Image',
                 thumbnailUrl: imageUrl,
                 onPlay: () => {},
             });

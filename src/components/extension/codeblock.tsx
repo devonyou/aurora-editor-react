@@ -117,7 +117,7 @@ export default function CodeBlockRenderer({ node, updateAttributes }: NodeViewPr
                 </StyledCodeBlockHeader>
             </Dropdown>
             <StyledCodeBlock>
-                <NodeViewContent as={'code'} className={`language-${language}`} />
+                <NodeViewContent as={'code'} className={`language-${language}`} style={{ lineHeight: 1.5 }} />
             </StyledCodeBlock>
         </StyledCodeBlockWrapper>
     );

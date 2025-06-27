@@ -43,16 +43,28 @@ export const AuroraEditor = forwardRef<AuroraEditorRef, UseAuroraEditorProps>((p
             setClear: () => editor?.commands.clearContent(),
             insertContent: (content: string | object) => editor?.chain().focus().insertContent(content).run(),
             insertClip: ({ clipId }: { clipId: string }) => {
-                editor
-                    ?.chain()
-                    .focus()
-                    .insertContent({
-                        type: 'clip',
-                        attrs: { clipId, loading: true, thumbnailUrl: null },
-                    })
-                    .createParagraphNear()
-                    .run();
-                editor?.commands.focus();
+                const { state, view } = editor!;
+                if (!state || !view) return;
+
+                const { doc, tr } = state;
+
+                const endPos = doc.content.size;
+
+                const clipNode = state.schema.nodes.clip.create({
+                    clipId,
+                    loading: true,
+                    thumbnailUrl: null,
+                });
+
+                const paragraph = state.schema.nodes.paragraph.create();
+
+                const transaction = tr
+                    .insert(endPos, clipNode)
+                    .insert(endPos + 1, paragraph)
+                    .setSelection(state.selection.constructor.near(tr.doc.resolve(endPos + 2)));
+
+                view.dispatch(transaction);
+                view.focus();
             },
             updateClip: (props: {
                 clipId: string;

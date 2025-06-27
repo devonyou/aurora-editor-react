@@ -31,7 +31,7 @@ export const Paragraph = TiptapParagraph.extend({
                     margin: 5px 0;
                     color: #14171a;
                     font-size: 16px;
-                    padding: 8px 0;
+                    padding: 5px 0;
                 `,
             },
         };
