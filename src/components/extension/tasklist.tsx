@@ -1,4 +1,13 @@
 import { TaskList as TiptapTaskList } from '@tiptap/extension-task-list';
+import { NodeViewContent, NodeViewWrapper, ReactNodeViewRenderer } from '@tiptap/react';
+
+const TaskListRenderer: React.FC = () => {
+    return (
+        <NodeViewWrapper>
+            <NodeViewContent as={'ul'} />
+        </NodeViewWrapper>
+    );
+};
 
 export const TaskList = TiptapTaskList.extend({
     addOptions() {
@@ -10,7 +19,10 @@ export const TaskList = TiptapTaskList.extend({
     addAttributes() {
         return {
             ...this.parent?.(),
-            class: { default: 'aurora-task-list' },
         };
+    },
+
+    addNodeView() {
+        return ReactNodeViewRenderer(TaskListRenderer);
     },
 });

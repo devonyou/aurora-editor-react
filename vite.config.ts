@@ -10,6 +10,7 @@ export default defineConfig({
         react(),
         dts({
             include: ['src'],
+            exclude: ['src/main.tsx', 'src/App.tsx'],
             outDir: 'dist',
             insertTypesEntry: true,
             copyDtsFiles: true,
@@ -18,16 +19,24 @@ export default defineConfig({
         peerDepsExternal(),
         cssInjectedByJsPlugin(),
     ],
-    css: {
-        modules: {
-            scopeBehaviour: 'local',
-            localsConvention: 'camelCase',
-        },
-    },
     resolve: {
         alias: {
             '@': path.resolve(__dirname, 'src'),
             src: path.resolve(__dirname, 'src'),
+        },
+        dedupe: [
+            'prosemirror-state',
+            'prosemirror-view',
+            'prosemirror-model',
+            'prosemirror-transform',
+            'prosemirror-commands',
+            '@tiptap/core',
+        ],
+    },
+    css: {
+        modules: {
+            scopeBehaviour: 'local',
+            localsConvention: 'camelCase',
         },
     },
     build: {
@@ -37,20 +46,6 @@ export default defineConfig({
             fileName: format => `aurora-editor.${format}.js`,
             formats: ['es'],
         },
-        minify: 'terser',
-        terserOptions: {
-            compress: {
-                drop_console: true,
-                drop_debugger: true,
-                pure_funcs: ['console.log', 'console.info', 'console.debug'],
-            },
-            mangle: true,
-            format: {
-                comments: false,
-            },
-        },
-        cssCodeSplit: true,
-        reportCompressedSize: true,
         rollupOptions: {
             external: [
                 'react',
@@ -68,11 +63,14 @@ export default defineConfig({
                 '@tiptap/extension-code-block-lowlight',
                 '@tiptap/extension-color',
                 '@tiptap/extension-document',
+                '@tiptap/extension-drag-handle',
                 '@tiptap/extension-dropcursor',
                 '@tiptap/extension-focus',
                 '@tiptap/extension-heading',
                 '@tiptap/extension-highlight',
+                '@tiptap/extension-horizontal-rule',
                 '@tiptap/extension-link',
+                '@tiptap/extension-node-range',
                 '@tiptap/extension-paragraph',
                 '@tiptap/extension-placeholder',
                 '@tiptap/extension-task-item',
@@ -84,6 +82,7 @@ export default defineConfig({
                 '@tiptap/extension-youtube',
                 'highlight.js',
                 'lowlight',
+                'styled-components',
             ],
             output: {
                 globals: {
@@ -95,28 +94,30 @@ export default defineConfig({
                 },
                 manualChunks: id => {
                     if (id.includes('node_modules')) {
-                        if (id.includes('@tiptap')) {
-                            return 'tiptap';
-                        } else if (id.includes('prosemirror')) {
-                            return 'prosemirror';
-                        } else if (id.includes('antd') || id.includes('@ant-design')) {
-                            return 'antd';
-                        } else if (id.includes('highlight.js') || id.includes('lowlight')) {
-                            return 'syntax-highlight';
-                        }
+                        if (id.includes('@tiptap')) return 'tiptap';
+                        if (id.includes('prosemirror')) return 'prosemirror';
+                        if (id.includes('antd') || id.includes('@ant-design')) return 'antd';
+                        if (id.includes('highlight.js') || id.includes('lowlight')) return 'syntax-highlight';
                         return 'vendor';
                     }
                 },
-                // 트리 쉐이킹 최적화
-                preserveModules: false,
-                inlineDynamicImports: false,
+            },
+        },
+        minify: 'terser',
+        terserOptions: {
+            compress: {
+                drop_console: true,
+                drop_debugger: true,
+                pure_funcs: ['console.log', 'console.info', 'console.debug'],
+            },
+            format: {
+                comments: false,
             },
         },
         sourcemap: false,
         emptyOutDir: true,
     },
     optimizeDeps: {
-        include: ['react', 'react-dom'],
-        exclude: ['@tiptap/core', 'prosemirror-state', 'prosemirror-view', 'prosemirror-model'],
+        include: ['react', 'react-dom', 'antd'],
     },
 });

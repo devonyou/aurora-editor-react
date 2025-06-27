@@ -34,19 +34,19 @@ export default function Align() {
     const alignItems: MenuProps['items'] = [
         {
             key: 'left',
-            label: <Text strong>왼쪽</Text>,
+            label: <AlignCenterOutlined />,
             onClick: () => toggle('left'),
             className: getCurrentAlignment() === 'left' ? 'active' : '',
         },
         {
             key: 'center',
-            label: <Text strong>가운데</Text>,
+            label: <AlignRightOutlined />,
             onClick: () => toggle('center'),
             className: getCurrentAlignment() === 'center' ? 'active' : '',
         },
         {
             key: 'right',
-            label: <Text strong>오른쪽</Text>,
+            label: <AlignLeftOutlined />,
             onClick: () => toggle('right'),
             className: getCurrentAlignment() === 'right' ? 'active' : '',
         },
@@ -69,9 +69,7 @@ export default function Align() {
         <AuroraTooltip title="정렬" placement="bottom">
             <Dropdown menu={{ items: alignItems }} trigger={['click']} placement="bottom" disabled={!editor} arrow>
                 <Button type={'text'} disabled={!editor} size="middle">
-                    <Space>
-                        <AlignIcon />
-                    </Space>
+                    <AlignIcon />
                 </Button>
             </Dropdown>
         </AuroraTooltip>

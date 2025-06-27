@@ -1,5 +1,5 @@
 import {
-    CheckSquareOutlined,
+    // CheckSquareOutlined,
     CodeOutlined,
     DownOutlined,
     FontSizeOutlined,
@@ -86,7 +86,7 @@ export default function Controller() {
                 <Divider style={{ margin: '0px' }} />
                 <ControllerItem icon={<OrderedListOutlined />} label="순서 있는 목록" onClick={toggleOrderedList} />
                 <ControllerItem icon={<UnorderedListOutlined />} label="순서 없는 목록" onClick={toggleUnOrderedList} />
-                <ControllerItem icon={<CheckSquareOutlined />} label="할일 목록" onClick={toggleTaskList} />
+                {/* <ControllerItem icon={<CheckSquareOutlined />} label="할일 목록" onClick={toggleTaskList} /> */}
                 <Divider style={{ margin: '0px' }} />
                 <ControllerItem icon={<VerticalLeftOutlined />} label="인용구" onClick={toggleBlockquote} />
                 <ControllerItem icon={<CodeOutlined />} label="코드" onClick={toggleCode} />

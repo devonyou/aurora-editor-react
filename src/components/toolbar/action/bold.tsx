@@ -25,7 +25,7 @@ export default function bold() {
         <AuroraTooltip title="굵게" placement="bottom">
             <Button
                 icon={<BoldOutlined />}
-                type={editor?.isActive('bold') ? 'primary' : 'text'}
+                type={editor?.isActive('bold') ? 'link' : 'text'}
                 onClick={toggle}
                 disabled={!editor}
                 size="middle"

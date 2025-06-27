@@ -7,11 +7,11 @@ export interface AuroraEditorContextValue {
     tooltip?: boolean;
     html: string;
     setContent: (content: string) => void;
+    insertContent: (content: string | object) => void;
     focus: () => void;
     getHTML: () => string;
     getJSON: () => object;
     setClear: () => void;
-    insertContent: (content: string | object) => void;
 }
 
 export const AuroraEditorContext = createContext<AuroraEditorContextValue | null>(null);

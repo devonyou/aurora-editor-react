@@ -1,7 +1,7 @@
 import { CharacterCount as TiptapCharacterCount } from '@tiptap/extension-character-count';
 
-export const CharacterCount = (limit: number) =>
-    TiptapCharacterCount.extend({
+export const CharacterCount = (limit: number) => {
+    return TiptapCharacterCount.extend({
         addOptions() {
             return {
                 ...this.parent?.(),
@@ -9,3 +9,4 @@ export const CharacterCount = (limit: number) =>
             };
         },
     });
+};

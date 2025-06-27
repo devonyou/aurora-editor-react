@@ -7,4 +7,9 @@ export const Document = TiptapDocument.extend({
             content: 'block+',
         };
     },
+    addAttributes() {
+        return {
+            ...this.parent?.(),
+        };
+    },
 });

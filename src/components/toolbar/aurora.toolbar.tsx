@@ -29,11 +29,11 @@ export default function AuroraToolbar({}: AuroraToolbarProps) {
                 <Italic />
                 <Underline />
                 <Strike />
-                <Divider type="vertical" style={{ height: '20px' }} />
+                <Divider type="vertical" style={{ height: 20 }} />
                 <FontColor />
                 <Align />
                 <Link />
-                <Divider type="vertical" style={{ height: '20px' }} />
+                <Divider type="vertical" style={{ height: 20 }} />
                 <Horizontal />
             </Flex>
         </div>

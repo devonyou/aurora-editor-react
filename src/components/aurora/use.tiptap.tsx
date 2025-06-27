@@ -33,6 +33,7 @@ export function useTiptap(props: UseTiptapProps): AuroraEditorContextValue {
         content,
         autofocus: true,
         editable: true,
+        immediatelyRender: true,
         onUpdate: ({ editor }) => {
             handleUpdate(editor.getHTML());
         },

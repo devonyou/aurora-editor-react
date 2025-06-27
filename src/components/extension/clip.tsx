@@ -4,6 +4,93 @@ import { ReactNodeViewRenderer } from '@tiptap/react';
 import { NodeViewWrapper } from '@tiptap/react';
 import { Button, Flex, Spin, Typography } from 'antd';
 import { useState } from 'react';
+import styled from 'styled-components';
+
+const StyledNodeViewWrapper = styled(NodeViewWrapper)`
+    width: 100%;
+    min-width: 300px;
+    border: 1px solid rgb(240, 240, 240);
+    margin: 30px 0;
+    aspect-ratio: 16/9;
+    border-radius: 0.25rem;
+`;
+
+const StyledPlayButton = styled(Button)`
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    width: 50px !important;
+    height: 50px !important;
+`;
+
+const StyledClipImage = styled.img`
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 0.25rem;
+`;
+
+const StyledClipWrapper = styled(Flex)<{ selected: boolean }>`
+    width: 100%;
+    height: 100%;
+    position: relative;
+    border-radius: 0.25rem;
+    border: ${({ selected }) => (selected ? '3px solid #1890ff' : '1px solid #ddd')};
+    transition: border 0.2s ease;
+`;
+
+const StyledClipTitleWrapper = styled(Flex)`
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-bottom-left-radius: 0.25rem;
+    border-bottom-right-radius: 0.25rem;
+    padding: 5px 10px;
+`;
+
+const StyledClipTitle = styled(Typography.Text)`
+    font-size: 0.7rem;
+`;
+
+const ClipRenderer = (props: NodeViewProps) => {
+    const { node, selected } = props;
+    const { loading, thumbnailUrl, clipTime, onPlay, clipTitle } = node.attrs;
+    const [hovered, setHovered] = useState(false);
+
+    return (
+        <StyledNodeViewWrapper>
+            <Flex justify="center" align="center" style={{ width: '100%', height: '100%' }}>
+                {loading ? (
+                    <Spin />
+                ) : (
+                    <StyledClipWrapper
+                        onMouseEnter={() => setHovered(true)}
+                        onMouseLeave={() => setHovered(false)}
+                        selected={selected}
+                    >
+                        <StyledClipImage src={thumbnailUrl} />
+                        <StyledClipTitleWrapper justify="space-between" align="center">
+                            <StyledClipTitle>{clipTitle}</StyledClipTitle>
+                            <StyledClipTitle>{clipTime}</StyledClipTitle>
+                        </StyledClipTitleWrapper>
+                        {hovered && (
+                            <StyledPlayButton
+                                type="primary"
+                                shape="circle"
+                                icon={<PlayCircleOutlined style={{ fontSize: 20 }} />}
+                                onClick={onPlay}
+                            />
+                        )}
+                    </StyledClipWrapper>
+                )}
+            </Flex>
+        </StyledNodeViewWrapper>
+    );
+};
 
 const Clip = Node.create({
     name: 'clip',
@@ -27,90 +114,8 @@ const Clip = Node.create({
         return ['div', { ...HTMLAttributes, class: 'clip-node' }];
     },
     addNodeView() {
-        return ReactNodeViewRenderer(ClipView);
+        return ReactNodeViewRenderer(ClipRenderer);
     },
 });
-
-const ClipView = (props: NodeViewProps) => {
-    const { node, selected } = props;
-    const { loading, thumbnailUrl, clipTime, onPlay, clipTitle } = node.attrs;
-    const [hovered, setHovered] = useState(false);
-
-    return (
-        <NodeViewWrapper
-            style={{
-                width: '50%',
-                minWidth: 300,
-                border: loading && '1px solid rgb(240, 240, 240)',
-                margin: '30px 0',
-                aspectRatio: loading ? '16/9' : '16/9 ',
-                borderRadius: 10,
-            }}
-        >
-            <Flex justify="center" align="center" style={{ width: '100%', height: '100%' }}>
-                {loading ? (
-                    <Spin />
-                ) : (
-                    <Flex
-                        onMouseEnter={() => setHovered(true)}
-                        onMouseLeave={() => setHovered(false)}
-                        style={{
-                            width: '100%',
-                            height: '100%',
-                            position: 'relative',
-                            border: selected ? '3px solid #1890ff' : '1px solid #ddd',
-                            borderRadius: selected ? 13 : 10,
-                        }}
-                    >
-                        <img
-                            src={thumbnailUrl}
-                            style={{
-                                width: '100%',
-                                height: '100%',
-                                objectFit: 'cover',
-                                borderRadius: 10,
-                            }}
-                        />
-                        <Flex
-                            justify="space-between"
-                            align="center"
-                            style={{
-                                position: 'absolute',
-                                bottom: 0,
-                                left: 0,
-                                right: 0,
-                                backgroundColor: 'rgba(255, 255, 255, 0.7)',
-                                borderBottomLeftRadius: 10,
-                                borderBottomRightRadius: 10,
-                                padding: '5px 10px',
-                            }}
-                        >
-                            <Typography.Text style={{ fontSize: '0.7rem' }}>{clipTitle}</Typography.Text>
-                            <Typography.Text style={{ fontSize: '0.7rem' }}>{clipTime}</Typography.Text>
-                        </Flex>
-                        {hovered && (
-                            <Button
-                                type="primary"
-                                shape="circle"
-                                icon={<PlayCircleOutlined style={{ fontSize: 20 }} />}
-                                className="clip-play-button"
-                                onClick={onPlay}
-                                style={{
-                                    position: 'absolute',
-                                    top: '50%',
-                                    left: '50%',
-                                    transform: 'translate(-50%, -50%)',
-                                    zIndex: 2,
-                                    width: 50,
-                                    height: 50,
-                                }}
-                            />
-                        )}
-                    </Flex>
-                )}
-            </Flex>
-        </NodeViewWrapper>
-    );
-};
 
 export { Clip };

@@ -25,7 +25,7 @@ export default function Italic() {
         <AuroraTooltip title="기울임" placement="bottom">
             <Button
                 icon={<ItalicOutlined />}
-                type={editor?.isActive('italic') ? 'primary' : 'text'}
+                type={editor?.isActive('italic') ? 'link' : 'text'}
                 onClick={toggle}
                 disabled={!editor}
                 size="middle"

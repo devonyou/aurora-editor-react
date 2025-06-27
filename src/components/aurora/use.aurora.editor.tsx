@@ -8,14 +8,14 @@ export interface UseAuroraEditorProps {
         tooltip?: boolean;
         bubble?: boolean;
         color?: string;
+        limit?: number;
     };
     onUpdate?: (html: string) => void;
 }
 
 export function useAuroraEditorCore(props: UseAuroraEditorProps) {
     const { content, config = {}, onUpdate } = props;
-    const { placeholder = '' } = config;
 
-    const tiptap = useTiptap({ content, config: { placeholder }, onUpdate });
+    const tiptap = useTiptap({ content, config, onUpdate });
     return tiptap;
 }

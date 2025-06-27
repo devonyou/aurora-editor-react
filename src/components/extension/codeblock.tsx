@@ -1,8 +1,6 @@
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
-import { useState } from 'react';
 import { NodeViewWrapper, NodeViewContent, NodeViewProps, ReactNodeViewRenderer } from '@tiptap/react';
-import { Dropdown } from 'antd';
-import type { MenuProps } from 'antd';
+import { Dropdown, type MenuProps } from 'antd';
 
 import { all, createLowlight } from 'lowlight';
 import css from 'highlight.js/lib/languages/css';
@@ -24,6 +22,9 @@ import markdown from 'highlight.js/lib/languages/markdown';
 import bash from 'highlight.js/lib/languages/bash';
 import sql from 'highlight.js/lib/languages/sql';
 import 'highlight.js/styles/atom-one-dark.css';
+import styled from 'styled-components';
+import { useState } from 'react';
+import { CaretDownOutlined } from '@ant-design/icons';
 
 const lowlight = createLowlight(all);
 lowlight.register('html', html);
@@ -51,6 +52,77 @@ lowlight.register('bash', bash);
 lowlight.register('shell', bash);
 lowlight.register('sql', sql);
 
+const StyledCodeBlockWrapper = styled(NodeViewWrapper)`
+    position: relative;
+    margin: 1em 0;
+    border-radius: 0.25rem;
+    background-color: #282c34;
+    overflow: hidden;
+    font-family: 'JetBrains Mono', 'Fira Code', Consolas, 'Liberation Mono', Menlo, monospace;
+`;
+
+const StyledCodeBlock = styled.pre`
+    padding: 0.5em 0.75em;
+    overflow: hidden;
+    color: #abb2bf;
+`;
+
+const StyledCodeBlockHeader = styled.div`
+    background-color: rgba(0, 0, 0, 0.4);
+`;
+
+const StyledCodeBlockLanguage = styled.span`
+    font-size: 0.75em;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    // color: rgba(255, 255, 255, 0.7);
+    color: #fff;
+    text-transform: uppercase;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    padding: 0.3rem;
+    cursor: pointer;
+`;
+
+const StyledCodeBlockLanguageArrow = styled.span`
+    font-size: 0.6em;
+    margin-left: 5px;
+    transform: translateY(1px);
+`;
+
+export default function CodeBlockRenderer({ node, updateAttributes }: NodeViewProps) {
+    const language = node.attrs.language || 'text';
+    const [open, setOpen] = useState(false);
+
+    const handleLanguageChange: MenuProps['onClick'] = ({ key }) => {
+        updateAttributes({ language: key });
+        setOpen(false);
+    };
+
+    return (
+        <StyledCodeBlockWrapper>
+            <Dropdown
+                menu={{ items, onClick: handleLanguageChange }}
+                trigger={['click']}
+                open={open}
+                onOpenChange={setOpen}
+            >
+                <StyledCodeBlockHeader onClick={() => setOpen(true)}>
+                    <StyledCodeBlockLanguage>
+                        {language}
+                        <StyledCodeBlockLanguageArrow>
+                            <CaretDownOutlined style={{ fontSize: 15 }} />
+                        </StyledCodeBlockLanguageArrow>
+                    </StyledCodeBlockLanguage>
+                </StyledCodeBlockHeader>
+            </Dropdown>
+            <StyledCodeBlock>
+                <NodeViewContent as={'code'} className={`language-${language}`} />
+            </StyledCodeBlock>
+        </StyledCodeBlockWrapper>
+    );
+}
+
 export const CodeBlock = CodeBlockLowlight.extend({
     addOptions() {
         return {
@@ -62,12 +134,11 @@ export const CodeBlock = CodeBlockLowlight.extend({
     addAttributes() {
         return {
             ...this.parent?.(),
-            class: { default: 'aurora-code-block' },
         };
     },
 
     addNodeView() {
-        return ReactNodeViewRenderer(CodeBlockView);
+        return ReactNodeViewRenderer(CodeBlockRenderer);
     },
 
     addCommands() {
@@ -150,34 +221,3 @@ const items: MenuProps['items'] = [
         ],
     },
 ];
-
-export default function CodeBlockView({ node, updateAttributes }: NodeViewProps) {
-    const language = node.attrs.language || 'text';
-    const [open, setOpen] = useState(false);
-
-    const handleLanguageChange: MenuProps['onClick'] = ({ key }) => {
-        updateAttributes({ language: key });
-        setOpen(false);
-    };
-
-    return (
-        <NodeViewWrapper className="aurora-code-block">
-            <Dropdown
-                menu={{ items, onClick: handleLanguageChange }}
-                trigger={['click']}
-                open={open}
-                onOpenChange={setOpen}
-            >
-                <div className="code-block-header" onClick={() => setOpen(true)}>
-                    <span className="code-block-language">
-                        {language || 'text'}
-                        <span className="language-indicator-arrow">▼</span>
-                    </span>
-                </div>
-            </Dropdown>
-            <pre>
-                <NodeViewContent as="code" className={`language-${language}`} />
-            </pre>
-        </NodeViewWrapper>
-    );
-}

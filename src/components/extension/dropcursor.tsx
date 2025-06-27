@@ -1,17 +1,11 @@
-import { Dropcursor as TiptapDropcursor } from '@tiptap/extension-dropcursor';
+import { DropcursorOptions, Dropcursor as TiptapDropcursor } from '@tiptap/extension-dropcursor';
 
 export const Dropcursor = TiptapDropcursor.extend({
-    addOptions() {
+    addOptions(): DropcursorOptions {
         return {
             ...this.parent?.(),
-            // color: '#C5D8F7',
-            width: 3,
-        };
-    },
-
-    addAttributes() {
-        return {
-            ...this.parent?.(),
+            color: '#111111',
+            width: 2,
         };
     },
 });

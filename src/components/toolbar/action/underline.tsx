@@ -25,7 +25,7 @@ export default function Underline() {
         <AuroraTooltip title="밑줄" placement="bottom">
             <Button
                 icon={<UnderlineOutlined />}
-                type={editor?.isActive('underline') ? 'primary' : 'text'}
+                type={editor?.isActive('underline') ? 'link' : 'text'}
                 onClick={toggle}
                 disabled={!editor}
                 size="middle"

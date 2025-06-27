@@ -25,7 +25,7 @@ export default function Strike() {
         <AuroraTooltip title="취소선" placement="bottom">
             <Button
                 icon={<StrikethroughOutlined />}
-                type={editor?.isActive('strike') ? 'primary' : 'text'}
+                type={editor?.isActive('strike') ? 'link' : 'text'}
                 onClick={toggle}
                 disabled={!editor}
                 size="middle"

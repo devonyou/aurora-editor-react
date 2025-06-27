@@ -3,8 +3,8 @@ import { ConfigProvider as AntdConfigProvider } from 'antd';
 import { antdTheme } from './antd.theme';
 import { useAuroraEditorCore, UseAuroraEditorProps } from './use.aurora.editor';
 import { AuroraEditorContext } from './aurora.editor.context';
-import style from './aurora.editor.module.css';
 import { BubbleProvider } from '@/components/bubble';
+import style from './aurora.editor.module.css';
 
 export interface AuroraEditorRef {
     focus: () => void;

@@ -2,10 +2,9 @@ import { useRef } from 'react';
 import { AuroraTextarea, AuroraToolbar, AuroraEditor, AuroraEditorRef } from '.';
 // import { AuroraTextarea, AuroraToolbar, AuroraEditor, AuroraEditorRef } from 'aurora-editor-react';
 import { v4 as uuidv4 } from 'uuid';
-import { Button } from 'antd';
+import { Button, Flex } from 'antd';
 
-const imageUrl =
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSaRQfyxh4dq5DxFfLR1q84jfeNftErRrz1nhDWzQxOuUbCo0QKjcmwU8WtSRAWkf_BWeUyB7wwDWnCOiqwKXGkzSO-xNhYwKbXacPKoPdPmA';
+const imageUrl = 'https://templates.tiptap.dev/placeholder-image.jpg';
 const content = '';
 
 export default function App() {
@@ -23,9 +22,7 @@ export default function App() {
                 clipTime: '00:00:00',
                 clipTitle: 'title',
                 thumbnailUrl: imageUrl,
-                onPlay: () => {
-                    // console.log(editorRef.current?.getHTML());
-                },
+                onPlay: () => {},
             });
         }, 2000);
     };
@@ -33,19 +30,24 @@ export default function App() {
     return (
         <>
             <Button onClick={insert}>insert</Button>
-            <AuroraEditor
-                ref={editorRef}
-                content={content}
-                config={{
-                    placeholder: '명령어 사용시에는 "/"를 입력해주세요.',
-                    tooltip: true,
-                    bubble: true,
-                    color: '#16b75e',
-                }}
-            >
-                {/* <AuroraToolbar /> */}
-                <AuroraTextarea />
-            </AuroraEditor>
+            <Flex justify="center" align="center">
+                <Flex style={{ width: 700, height: 'inherit' }}>
+                    <AuroraEditor
+                        ref={editorRef}
+                        content={content}
+                        config={{
+                            placeholder: '명령어 사용시에는 "/"를 입력해주세요.',
+                            tooltip: true,
+                            bubble: true,
+                            color: '#16b75e',
+                        }}
+                    >
+                        <AuroraToolbar />
+                        <div style={{ backgroundColor: '#b2b2b2', height: 0.5, width: '100%', marginTop: '0.5rem' }} />
+                        <AuroraTextarea />
+                    </AuroraEditor>
+                </Flex>
+            </Flex>
         </>
     );
 }

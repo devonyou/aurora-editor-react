@@ -1,14 +1,18 @@
 import { FocusClasses as TiptapFocus } from '@tiptap/extension-focus';
-import type { FocusOptions } from '@tiptap/extension-focus';
+import type { FocusOptions as TiptapFocusOptions } from '@tiptap/extension-focus';
 import { Plugin, PluginKey } from 'prosemirror-state';
 import { Decoration, DecorationSet } from 'prosemirror-view';
 
-export const Focus = TiptapFocus.extend({
-    addOptions() {
+interface FocusOptions extends TiptapFocusOptions {
+    style: string;
+}
+
+export const Focus = TiptapFocus.extend<FocusOptions>({
+    addOptions(): FocusOptions {
         return {
             ...this.parent?.(),
-            mode: 'deepest' as FocusOptions['mode'],
-            className: 'aurora-focus',
+            mode: 'shallowest' as FocusOptions['mode'],
+            // style: 'background-color: rgba(0, 0, 0, 0.01); border-radius: 0.25rem',
         };
     },
 
@@ -30,6 +34,7 @@ export const Focus = TiptapFocus.extend({
 
                         const $from = this.editor.state.selection.$from;
                         const $fromName = $from.parent.type.name;
+                        const isEmpty = this.editor.isEmpty;
 
                         if (!isEditable || !isFocused || $fromName === 'doc') {
                             return DecorationSet.create(doc, []);
@@ -81,6 +86,7 @@ export const Focus = TiptapFocus.extend({
                             decorations.push(
                                 Decoration.node(pos, pos + node.nodeSize, {
                                     class: this.options.className,
+                                    style: this.options.style,
                                 })
                             );
                         });

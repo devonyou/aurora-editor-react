@@ -12,7 +12,6 @@ export const Youtube = TiptapYoutube.extend({
             height: 270,
             modestBranding: true,
             autoplay: false,
-            HTMLAttributes: { class: 'aurora-youtube' },
         };
     },
 });
