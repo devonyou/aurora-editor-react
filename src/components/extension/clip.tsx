@@ -7,12 +7,14 @@ import { useState } from 'react';
 import styled from 'styled-components';
 
 const StyledNodeViewWrapper = styled(NodeViewWrapper)`
-    width: 100%;
-    min-width: 300px;
+    // width: 100%;
+    // min-width: 300px;
+    max-height: 250px;
     border: 1px solid rgb(240, 240, 240);
     margin: 30px 0;
     aspect-ratio: 16/9;
     border-radius: 0.25rem;
+    justify-items: center;
 `;
 
 const StyledPlayButton = styled(Button)`
