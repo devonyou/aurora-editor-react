@@ -83,9 +83,18 @@ const ClipRenderer = (props: NodeViewProps) => {
                         </StyledClipTitleWrapper>
                         {hovered && (
                             <StyledPlayButton
-                                type="primary"
+                                type="text"
                                 shape="circle"
-                                icon={<PlayCircleOutlined style={{ fontSize: 20 }} />}
+                                icon={
+                                    <PlayCircleOutlined
+                                        style={{
+                                            fontSize: 60,
+                                            backgroundColor: '#000',
+                                            color: '#fff',
+                                            borderRadius: '50%',
+                                        }}
+                                    />
+                                }
                                 onClick={onPlay}
                             />
                         )}

@@ -1,76 +1,15 @@
-# Aurora Editor
+## ✏️ Aurora Editor
 
-Aurora Editor is a rich text editor component for React based on Tiptap and Ant Design. It provides an easy-to-use interface with extensible features.
+Tiptap 기반으로 커스텀된 react 기반 텍스트 에디터입니다.
+이미지 업로드, 드래그 앤 드롭, 마크다운 단축키, 코드 블록 등 다양한 기능을 지원하며 사용자 친화적인 UI/UX를 제공합니다.
 
-## Features
-
--   **Various text formatting**: Bold, italic, underline, strikethrough, and other basic text formatting
--   **Block elements**: Headings, blockquotes, code blocks, horizontal rules
--   **Color and highlighting**: Text color changes and background highlighting
--   **Alignment options**: Left, center, right, justify
--   **Lists**: Ordered lists, unordered lists, checklists
--   **Media insertion**: Insert images, YouTube videos
--   **Code blocks**: Code blocks with syntax highlighting (supporting over 20 languages)
--   **Links**: URL link insertion and management
--   **Interactive UI features**:
-    -   **Tooltip**: Hover tooltips on toolbar buttons for better UX
-    -   **Bubble menu**: Context-sensitive formatting menu that appears on text selection
--   **Other features**: Text indentation and more
-
-## Installation
+### ⭐️ Install
 
 ```bash
 npm install aurora-editor-react
-# or
-yarn add aurora-editor-react
 ```
 
-![Aurora Editor Screenshot](./image.png)
-
-## Usage
-
-```tsx
-import { useRef } from 'react';
-import { AuroraEditor, AuroraEditorHandle } from 'aurora-editor';
-import { AuroraToolbar } from 'aurora-editor/components/toolbar';
-import { AuroraTextarea } from 'aurora-editor/components/textarea';
-import { Button, Flex } from 'antd';
-
-function MyEditor() {
-    const editorRef = useRef<AuroraEditorHandle>(null);
-
-    return (
-        <>
-            <AuroraEditor
-                ref={editorRef}
-                initContent="<p>Hello Aurora!</p>"
-                placeholder="Type '/' to use commands."
-                tooltip={true}
-                bubble={true}
-                onUpdate={handleUpdate}
-            >
-                <AuroraToolbar />
-                <AuroraTextarea />
-            </AuroraEditor>
-        </>
-    );
-}
-```
-
-## API Reference
-
-### AuroraEditor Props
-
-| Prop          | Type                     | Description                                                   |
-| ------------- | ------------------------ | ------------------------------------------------------------- |
-| `children`    | `ReactNode`              | Child elements to add to the editor (e.g., toolbar, textarea) |
-| `initContent` | `string`                 | Initial HTML content of the editor                            |
-| `placeholder` | `string`                 | Placeholder text                                              |
-| `tooltip`     | `boolean`                | Enable tooltips on toolbar buttons (default: true)            |
-| `bubble`      | `boolean`                | Enable bubble menu on text selection (default: false)         |
-| `onUpdate`    | `(html: string) => void` | Callback function called when content changes                 |
-
-### AuroraEditorHandle Methods
+### ⭐️ AuroraEditorHandle Methods
 
 | Method          | Return Type | Description                              |
 | --------------- | ----------- | ---------------------------------------- |
@@ -80,7 +19,14 @@ function MyEditor() {
 | `setContent`    | `void`      | Sets the editor content                  |
 | `setClear`      | `void`      | Clears the editor content                |
 | `insertContent` | `void`      | Insert content into the editor           |
+| `insertClip`    | `void`      | Insert clip into the editor              |
 
-## License
+### ⭐️ Design
 
-MIT
+-   [Tiptap](https://tiptap.dev)
+-   [Tiptap Github](https://github.com/ueberdosis/tiptap)
+-   [Ant Design](https://ant.design)
+
+### ⭐️ Demo
+
+![Aurora Editor Screenshot](./image.png)
